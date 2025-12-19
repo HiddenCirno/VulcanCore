@@ -8,5 +8,7 @@ public enum EBlackListType
     PMCLoot = 1 << 1,       // 2
     ScavCaseLoot = 1 << 2,  // 4
     Fence = 1 << 3,         // 8
-    Circle = 1 << 4         // 16
+    Circle = 1 << 4,        // 16
+    DailyReward = 1 << 5,   // 32
+    Global = 1 << 6         // 64
 }

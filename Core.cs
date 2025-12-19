@@ -17,11 +17,12 @@ using SPTarkov.Server.Core.Utils.Cloners;
 using SPTarkov.Reflection.Patching;
 using System.Reflection;
 using HarmonyLib;
+using System.Threading;
 namespace VulcanCore;
 public record ModMetadata : AbstractModMetadata
 {
     public override string ModGuid { get; init; } = "com.hiddenhiragi.vulcancore";
-    public override string Name { get; init; } = "VulcanCore";
+    public override string Name { get; init; } = "火神之心-重生";
     public override string Author { get; init; } = "HiddenHiragi";
     public override List<string>? Contributors { get; init; }
     public override SemanticVersioning.Version Version { get; init; } = new("1.0.0");
@@ -34,15 +35,23 @@ public record ModMetadata : AbstractModMetadata
 }
 [Injectable(TypePriority = OnLoadOrder.PreSptModLoader + 1)]
 public class CorePreSptLoad(
-    ISptLogger<VulcanCore> logger, DatabaseService databaseService, CustomItemService customItemService, ModHelper modHelper, JsonUtil jsonutil, ICloner cloner, ConfigServer configServer, ImageRouter imageRouter) // We inject a logger for use inside our class, it must have the class inside the diamond <> brackets
+    ISptLogger<VulcanCore> logger,
+    DatabaseService databaseService,
+    CustomItemService customItemService,
+    ModHelper modHelper,
+    JsonUtil jsonutil,
+    ICloner cloner,
+    ConfigServer configServer,
+    ImageRouter imageRouter
+    ) // We inject a logger for use inside our class, it must have the class inside the diamond <> brackets
     : IOnLoad // Implement the IOnLoad interface so that this mod can do something on server load
 {
     public Task OnLoad()
     {
         //new SafeRagfairPricePatch().Enable();
         //var traderBase = modHelper.GetJsonDataFromFile<TraderBase>(pathToMod, "db/base.json");
-        VulcanUtil.DoAsyncWork(logger);
-        VulcanLog.Access("test", logger);
+        //VulcanUtil.DoAsyncWork(logger);
+        //VulcanLog.Access("test", logger);
         //LootUtils.GenerateStaticLootMap(databaseService, logger);
         //ItemUtils.GetItem("5e42c81886f7742a01529f57", databaseService).Properties.MaximumNumberOfUsage = 0; //完全可以
         //databaseService.GetTraders().Values[IEnumerable<Trader>.]
@@ -66,50 +75,238 @@ public class VulcanCore(
     ) // We inject a logger for use inside our class, it must have the class inside the diamond <> brackets
     : IOnLoad // Implement the IOnLoad interface so that this mod can do something on server load
 {
+    public string modPath = modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
     public Task OnLoad()
-    {   
+    {
         //var traderBase = modHelper.GetJsonDataFromFile<TraderBase>(pathToMod, "db/base.json");
-        VulcanUtil.DoAsyncWork(logger);
-        VulcanLog.Access("test", logger);
+        //VulcanUtil.DoAsyncWork(logger);
+        // VulcanLog.Access("test", logger);
+        ImageUtils.RegisterFolderImageRoute("/files/icon/", System.IO.Path.Combine(modPath, "res/"), imageRouter);
+        var dim = ERagfairTagsType.次元博物;
+        var special = ERagfairTagsType.特殊物品;
+        var dev = ERagfairTagsType.调试物品;
+        var quest = ERagfairTagsType.任务物品;
+        databaseService.GetHandbook().Categories.Add(new HandbookCategory
+        {
+            Id = dim,
+            ParentId = "5b47574386f77428ca22b33e",
+            Icon = "/files/icon/nuclear_star.png",
+            Color = "",
+            Order = "100"
+        });
+        databaseService.GetHandbook().Categories.Add(new HandbookCategory
+        {
+            Id = special,
+            ParentId = null,
+            Icon = "/files/icon/barrier.png",
+            Color = "",
+            Order = "15"
+        });
+        databaseService.GetHandbook().Categories.Add(new HandbookCategory
+        {
+            Id = dev,
+            ParentId = null,
+            Icon = "/files/icon/commandblock.png",
+            Color = "",
+            Order = "16"
+        });
+        databaseService.GetHandbook().Categories.Add(new HandbookCategory
+        {
+            Id = quest,
+            ParentId = null,
+            Icon = "/files/icon/quest.png",
+            Color = "",
+            Order = "17"
+        });
+        databaseService.GetLocales().Global["ch"].AddTransformer(delegate (Dictionary<string, string> lang)
+        {
+            lang[dim] = "次元博物";
+            lang[special] = "特殊物品";
+            lang[dev] = "技术物品";
+            lang[quest] = "任务物品";
+            return lang;
+        });
+        var items = databaseService.GetItems();
+        foreach (var item in items)
+        {
+            var handbooks = databaseService.GetHandbook().Items;
+            var handbook = handbooks.FirstOrDefault(x => x.Id == item.Value.Id);
+            if (item.Value.Type != "Node" && item.Value.Properties != null)
+            {
+                if (item.Value.Properties.Width >= 10)
+                {
+                    item.Value.Properties.Width = 2;
+                }
+                if (item.Value.Properties.Height >= 10)
+                {
+                    item.Value.Properties.Height = 2;
+                }
+                if ((bool)item.Value.Properties.QuestItem)
+                {
+                    if (handbook != null)
+                    {
+                        handbook.ParentId = quest;
+                        ItemUtils.AddBlackList(item.Value.Id, 31, configServer);
+                    }
+                    else
+                    {
+                        handbooks.Add(new HandbookItem
+                        {
+                            Id = item.Value.Id,
+                            ParentId = quest,
+                            Price = 20000
+                        });
+                        ItemUtils.AddBlackList(item.Value.Id, 31, configServer);
+                    }
+                }
+                else if (handbook == null)
+                {
+                    item.Value.Properties.CanSellOnRagfair = false;
+                    handbooks.Add(new HandbookItem
+                    {
+                        Id = item.Value.Id,
+                        ParentId = dev,
+                        Price = 20000
+                    });
+                    ItemUtils.AddBlackList(item.Value.Id, 64, configServer);
+                }
+            }
+        }
         //LootUtils.GenerateStaticLootMap(databaseService, logger);
         //ItemUtils.GetItem("5e42c81886f7742a01529f57", databaseService).Properties.MaximumNumberOfUsage = 0; //完全可以
         //databaseService.GetTraders().Values[IEnumerable<Trader>.]
+        var config = ConfigManager.GetConfig();
+        if (config.UseOldRagfairPrice)
+        {
+            new ReplaceFleaBasePricesPatch().Enable();
+        }
+        new OpenRandomLootContainerPatch().Enable();
+        new RagfairLoadPatch().Enable();
         return Task.CompletedTask;
     }
 
-    public virtual GetItemPriceResult GetItemMinAvgMaxFleaPriceValues(GetMarketPriceRequestData getPriceRequest, bool ignoreTraderOffers = true)
+    [Injectable]
+    public class VulcanCoreAwakeRouter : StaticRouter
     {
-        IEnumerable<RagfairOffer> offersOfType = ragfairOfferService.GetOffersOfType(getPriceRequest.TemplateId);
-        if (offersOfType!= null && offersOfType.Any())
+        private static HttpResponseUtil _httpResponseUtil;
+        private static DatabaseService _databaseService;
+        private static RagfairController _ragfairController;
+        private static JsonUtil _jsonUtil;
+        private static RagfairOfferService _ragfairOfferService;
+        private static ItemHelper _itemHelper;
+        private static ISptLogger<VulcanCore> _logger;
+        private static ICloner _cloner;
+        private static VulcanCore _vulcanCore;
+
+        public VulcanCoreAwakeRouter(
+            JsonUtil jsonUtil,
+            HttpResponseUtil httpResponseUtil,
+            DatabaseService databaseService,
+            RagfairController ragfairController,
+            RagfairOfferService ragfairOfferService,
+            ItemHelper itemHelper,
+            ISptLogger<VulcanCore> logger,
+            ICloner cloner,
+            VulcanCore vulcanCore)
+            : base(jsonUtil, GetCustomRoutes())
         {
-            MinMax<double> minMax = new MinMax<double>(2147483647.0, 0.0);
-            var avgPriceMethod = ragfairController.GetType()
-                .GetMethod("GetAveragePriceFromOffers", BindingFlags.Instance | BindingFlags.NonPublic);
-            double averagePriceFromOffers = (double)avgPriceMethod.Invoke(
-                ragfairController,
-                new object[] { offersOfType, minMax, ignoreTraderOffers }
-            );
-            //double averagePriceFromOffers = ragfairController.GetAveragePriceFromOffers(offersOfType, minMax, ignoreTraderOffers);
-            return new GetItemPriceResult
-            {
-                Avg = Math.Round(averagePriceFromOffers),
-                Min = minMax.Min,
-                Max = minMax.Max
-            };
+            _httpResponseUtil = httpResponseUtil;
+            _databaseService = databaseService;
+            _ragfairController = ragfairController;
+            _ragfairOfferService = ragfairOfferService;
+            _itemHelper = itemHelper;
+            _logger = logger;
+            _cloner = cloner;
+            _jsonUtil = jsonUtil;
+            _vulcanCore = vulcanCore;
         }
 
-        if (!databaseService.GetPrices().TryGetValue(getPriceRequest.TemplateId, out var value))
+        private static List<RouteAction> GetCustomRoutes()
         {
-            value = handbookHelper.GetTemplatePrice(getPriceRequest.TemplateId);
-        }
-        else value = 0;
-
-        return new GetItemPriceResult
+            return new List<RouteAction>
         {
-            Avg = value,
-            Min = value,
-            Max = value
+            new RouteAction(
+                "/VulcanCoreClient/InitFix",
+                async (url, info, sessionId, output) =>
+                    await HandleRoute(
+                        url,
+                        sessionId,
+                        _jsonUtil,
+                        _databaseService,
+                        _ragfairController,
+                        _ragfairOfferService,
+                        _itemHelper,
+                        _logger,
+                        _cloner,
+                        _vulcanCore
+                    )
+            ),
+            new RouteAction(
+                "/VulcanCoreClient/ClientStartCall",
+                async (url, info, sessionId, output) =>
+                    await HandleClientStart(
+                        url,
+                        sessionId,
+                        _jsonUtil,
+                        _databaseService,
+                        _ragfairController,
+                        _ragfairOfferService,
+                        _itemHelper,
+                        _logger,
+                        _cloner,
+                        _vulcanCore
+                    )
+            )
         };
+        }
+        private static ValueTask<string> HandleRoute(
+            string url,
+            MongoId sessionId,
+            JsonUtil jsonUtil,
+            DatabaseService databaseService,
+            RagfairController ragfairController,
+            RagfairOfferService ragfairOfferService,
+            ItemHelper itemHelper,
+            ISptLogger<VulcanCore> logger,
+            ICloner cloner,
+            VulcanCore vulcanCore
+            )
+        {
+            var localeService = ServiceLocator.ServiceProvider.GetService<LocaleService>();
+            if (!ItemUtils.firstlogin)
+            {
+                VulcanLog.Warn("正在修复物品数据....", logger);
+                // 构建返回的价格字典
+                ItemUtils.FixItemCompatibleInit(ItemUtils.FixList, databaseService, logger, cloner);
+                //VulcanLog.Debug($"{LocaleUtils.GetItemName(VulcanUtil.ConvertHashID("为了全人类海报"), localeService)}", logger);
+                VulcanLog.Access("物品数据修复完成", logger);
+                ItemUtils.firstlogin = true;
+            }
+            // 使用 HttpResponseUtil 返回标准格式 JSON
+            //string jsonResponse = _httpResponseUtil.GetBody(priceMap);
+            //绕过SPT提供的方法直接传递原始数据
+            return new ValueTask<string>("Response successful.");
+        }
+        private static ValueTask<string> HandleClientStart(
+            string url,
+            MongoId sessionId,
+            JsonUtil jsonUtil,
+            DatabaseService databaseService,
+            RagfairController ragfairController,
+            RagfairOfferService ragfairOfferService,
+            ItemHelper itemHelper,
+            ISptLogger<VulcanCore> logger,
+            ICloner cloner,
+            VulcanCore vulcanCore
+            )
+        {
+            var localeService = ServiceLocator.ServiceProvider.GetService<LocaleService>();
+            VulcanLog.Warn("游戏启动", logger);
+            // 使用 HttpResponseUtil 返回标准格式 JSON
+            //string jsonResponse = _httpResponseUtil.GetBody(priceMap);
+            //绕过SPT提供的方法直接传递原始数据
+            return new ValueTask<string>("Response successful.");
+        }
     }
 }
 

@@ -45,35 +45,39 @@ public class LootUtils
                 getedlocations.Sandbox,
                 getedlocations.SandboxHigh
             };
-            foreach (var location in locations)
+            MongoId targetid = lootableItemProps.UseCustomData == true && lootableItemProps.StaticLoot == true ? lootableItemProps.CustomStaticLootTarget : template.TargetId;
+            MongoId addedid = VulcanUtil.ConvertHashID(template.Id);
+            float relative = lootableItemProps.UseCustomData == true && lootableItemProps.StaticLoot == true ? lootableItemProps.StaticLootDivisor : 2;
+            //默认生成或仅在StaticLoot为true时生成
+            if (lootableItemProps.CanFindInRaid)
             {
-                //VulcanLog.Debug($"初始化战利品生成流程", logger);
-                if (lootableItemProps.CanFindInRaid)
+                if (lootableItemProps.StaticLoot == null || (lootableItemProps.StaticLoot != null && lootableItemProps.StaticLoot == true))
                 {
-                    //VulcanLog.Debug($"尝试生成战利品: {lootableItemProps.Name}", logger);
-                    location.StaticLoot.AddTransformer(delegate (Dictionary<MongoId, StaticLootDetails> staticloot)
+                    foreach (var location in locations)
                     {
-                        foreach (var loot in staticloot)
+                        //VulcanLog.Debug($"初始化战利品生成流程", logger);
+                        //VulcanLog.Debug($"尝试生成战利品: {lootableItemProps.Name}", logger);
+                        location.StaticLoot.AddTransformer(delegate (Dictionary<MongoId, StaticLootDetails> staticloot)
                         {
-                            var lootlist = loot.Value.ItemDistribution.ToList();
-                            MongoId targetid = lootableItemProps.UseCustomData == true && lootableItemProps.StaticLoot == true ? lootableItemProps.CustomStaticLootTarget : template.TargetId;
-                            MongoId addedid = VulcanUtil.ConvertHashID(template.Id);
-                            float relative = lootableItemProps.UseCustomData == true && lootableItemProps.StaticLoot == true ? lootableItemProps.StaticLootDivisor : 2;
-                            var loottarget = lootlist.FirstOrDefault(l => l.Tpl == targetid);
-                            if (loottarget != null)
+                            foreach (var loot in staticloot)
                             {
-                                VulcanLog.Debug($"发现 {lootableItemProps.Name} 匹配的目标: {targetid}", logger);
-                                lootlist.Add(new ItemDistribution
+                                var lootlist = loot.Value.ItemDistribution.ToList();
+                                var loottarget = lootlist.FirstOrDefault(l => l.Tpl == targetid);
+                                if (loottarget != null)
                                 {
-                                    Tpl = addedid,
-                                    RelativeProbability = (float)loottarget.RelativeProbability / relative
-                                });
-                                VulcanLog.Access($"战利品添加成功: {lootableItemProps.Name}", logger);
+                                    //VulcanLog.Debug($"发现 {lootableItemProps.Name} 匹配的目标: {targetid}", logger);
+                                    lootlist.Add(new ItemDistribution
+                                    {
+                                        Tpl = addedid,
+                                        RelativeProbability = (float)loottarget.RelativeProbability / relative
+                                    });
+                                }
+                                //VulcanLog.Access($"战利品添加成功: {lootableItemProps.Name}", logger);
+                                loot.Value.ItemDistribution = lootlist;
                             }
-                            loot.Value.ItemDistribution = lootlist;
-                        }
-                        return staticloot;
-                    });
+                            return staticloot;
+                        });
+                    }
                 }
             }
         }
@@ -97,57 +101,140 @@ public class LootUtils
                 getedlocations.Sandbox,
                 getedlocations.SandboxHigh
             };
-            foreach (var location in locations)
+            MongoId targetid = lootableItemProps.UseCustomData == true && lootableItemProps.MapLoot == true ? lootableItemProps.CustomMapLootTarget : template.TargetId;
+            MongoId addedid = VulcanUtil.ConvertHashID(template.Id);
+            float relative = lootableItemProps.UseCustomData == true && lootableItemProps.MapLoot == true ? lootableItemProps.MapLootDivisor : 4;
+            if (lootableItemProps.CanFindInRaid)
             {
-                //VulcanLog.Debug($"初始化战利品生成流程", logger);
-                if (lootableItemProps.CanFindInRaid)
+                if (lootableItemProps.MapLoot == null || (lootableItemProps.MapLoot != null && lootableItemProps.MapLoot == true))
                 {
-                    //VulcanLog.Debug($"尝试生成战利品: {lootableItemProps.Name}", logger);
-                    location.LooseLoot.AddTransformer(delegate (LooseLoot looseloot)
+                    foreach (var location in locations)
                     {
-                        var lootlist = looseloot.Spawnpoints.ToList();
-                        MongoId targetid = lootableItemProps.UseCustomData == true && lootableItemProps.MapLoot == true ? lootableItemProps.CustomMapLootTarget : template.TargetId;
-                        MongoId addedid = VulcanUtil.ConvertHashID(template.Id);
-                        float relative = lootableItemProps.UseCustomData == true && lootableItemProps.MapLoot == true ? lootableItemProps.MapLootDivisor : 4;
-                        foreach (var spawnpoint in lootlist)
+                        //VulcanLog.Debug($"初始化战利品生成流程", logger);
+                        //VulcanLog.Debug($"尝试生成战利品: {lootableItemProps.Name}", logger);
+                        location.LooseLoot.AddTransformer(delegate (LooseLoot looseloot)
                         {
-                            var itemlist = spawnpoint.Template.Items.ToList();
-                            var distlist = spawnpoint.ItemDistribution.ToList();
-                            var loottarget = itemlist.FirstOrDefault(i => i.Template == targetid);
-                            if (loottarget != null)
+                            var lootlist = looseloot.Spawnpoints.ToList();
+                            foreach (var spawnpoint in lootlist)
                             {
-                                var lootkey = loottarget.ComposedKey;
-                                var targetkey = $"{addedid}_{loottarget.Id}";
-                                var lootid = (MongoId)VulcanUtil.ConvertHashID(targetkey);
-                                VulcanLog.Debug($"发现 {lootableItemProps.Name} 匹配的目标: {targetid}", logger);
-                                var disttarget = distlist.FirstOrDefault(i => i.ComposedKey.Key == lootkey);
-                                if (disttarget != null)
+                                var itemlist = spawnpoint.Template.Items.ToList();
+                                var distlist = spawnpoint.ItemDistribution.ToList();
+                                var loottarget = itemlist.FirstOrDefault(i => i.Template == targetid);
+                                if (loottarget != null)
                                 {
-                                    VulcanLog.Debug($"目标匹配成功", logger);
-                                    itemlist.Add(new SptLootItem
+                                    var lootkey = loottarget.ComposedKey;
+                                    var targetkey = $"{addedid}_{loottarget.Id}";
+                                    var lootid = (MongoId)VulcanUtil.ConvertHashID(targetkey);
+                                    //VulcanLog.Debug($"发现 {lootableItemProps.Name} 匹配的目标: {targetid}", logger);
+                                    var disttarget = distlist.FirstOrDefault(i => i.ComposedKey.Key == lootkey);
+                                    if (disttarget != null)
                                     {
-                                        ComposedKey = targetkey,
-                                        Id = lootid,
-                                        Template = addedid
-                                    });
-                                    distlist.Add(new LooseLootItemDistribution
-                                    {
-                                        ComposedKey = new ComposedKey
+                                        //VulcanLog.Debug($"目标匹配成功", logger);
+                                        itemlist.Add(new SptLootItem
                                         {
-                                            Key = targetkey
-                                        },
-                                        RelativeProbability = (float)disttarget.RelativeProbability / relative
-                                    });
-                                    VulcanLog.Access($"战利品添加成功: {lootableItemProps.Name}", logger);
+                                            ComposedKey = targetkey,
+                                            Id = lootid,
+                                            Template = addedid
+                                        });
+                                        distlist.Add(new LooseLootItemDistribution
+                                        {
+                                            ComposedKey = new ComposedKey
+                                            {
+                                                Key = targetkey
+                                            },
+                                            RelativeProbability = (float)disttarget.RelativeProbability / relative
+                                        });
+                                    }
+                                    //VulcanLog.Access($"战利品添加成功: {lootableItemProps.Name}", logger);
                                 }
+                                spawnpoint.Template.Items = itemlist;
+                                spawnpoint.ItemDistribution = distlist;
                             }
-                            spawnpoint.Template.Items = itemlist;
-                            spawnpoint.ItemDistribution = distlist;
-                        }
-                        return looseloot;
-                    });
+                            return looseloot;
+                        });
+                    }
                 }
             }
+        }
+    }
+    public static void AddPresetLoot(List<Item> itemPreset, MongoId targetid, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
+    {
+        var getedlocations = databaseService.GetLocations();
+        var locations = new List<Location> {
+                getedlocations.Bigmap,
+                getedlocations.Woods,
+                getedlocations.Factory4Day,
+                getedlocations.Factory4Night,
+                getedlocations.Laboratory,
+                getedlocations.Shoreline,
+                getedlocations.RezervBase,
+                getedlocations.Interchange,
+                getedlocations.Lighthouse,
+                getedlocations.TarkovStreets,
+                getedlocations.Sandbox,
+                getedlocations.SandboxHigh
+            };
+        foreach (var location in locations)
+        {
+            //VulcanLog.Debug($"尝试生成战利品: {lootableItemProps.Name}", logger);
+            location.LooseLoot.AddTransformer(delegate (LooseLoot looseloot)
+            {
+                var lootlist = looseloot.Spawnpoints.ToList();
+                float relative = 1f;
+                foreach (var spawnpoint in lootlist)
+                {
+                    var itemlist = spawnpoint.Template.Items.ToList();
+                    var distlist = spawnpoint.ItemDistribution.ToList();
+                    var loottarget = itemlist.FirstOrDefault(i => i.Template == targetid);
+                    if (loottarget != null)
+                    {
+                        var lootkey = loottarget.ComposedKey;
+                        var targetkey = $"{lootkey}_{loottarget.Id}";
+                        List<Item> presetlist = ItemUtils.RegenerateItemListData(itemPreset, targetkey, cloner);
+                        var lootid = (MongoId)VulcanUtil.ConvertHashID(targetkey);
+                        VulcanLog.Debug($"发现匹配的目标: {targetid}", logger);
+                        var disttarget = distlist.FirstOrDefault(i => i.ComposedKey.Key == lootkey);
+                        if (disttarget != null)
+                        {
+                            //var newitem = (SptLootItem)presetlist[0];
+                            var newitem = new SptLootItem
+                            {
+                                Id = presetlist[0].Id,
+                                Template = presetlist[0].Template,
+                                Upd = presetlist[0].Upd,
+                                ComposedKey = targetkey
+                            };
+                            itemlist.Add(newitem);
+                            for (var i = 1; i < presetlist.Count; i++)
+                            {
+                                //var convertitem = (SptLootItem)presetlist[i]; 
+                                var convertitem = new SptLootItem
+                                {
+                                    Id = presetlist[i].Id,
+                                    Template = presetlist[i].Template,
+                                    ParentId = presetlist[i].ParentId,
+                                    SlotId = presetlist[i].SlotId,
+                                    Upd = presetlist[i].Upd
+                                };
+                                itemlist.Add(convertitem);
+                            }
+                            //VulcanLog.Debug($"目标匹配成功", logger);
+                            distlist.Add(new LooseLootItemDistribution
+                            {
+                                ComposedKey = new ComposedKey
+                                {
+                                    Key = targetkey
+                                },
+                                RelativeProbability = (float)disttarget.RelativeProbability / relative
+                            });
+                            //VulcanLog.Access($"战利品添加成功: {lootableItemProps.Name}", logger);
+                        }
+                    }
+                    spawnpoint.Template.Items = itemlist;
+                    spawnpoint.ItemDistribution = distlist;
+                }
+                return looseloot;
+            });
         }
     }
 }

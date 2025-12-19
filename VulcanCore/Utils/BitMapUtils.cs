@@ -73,7 +73,8 @@ public class BitMapUtils
         { ELocationType.Lighthouse, "Lighthouse" },
         { ELocationType.TarkovStreets, "TarkovStreets" },
         { ELocationType.GroundZero, "Sandbox" },
-        { ELocationType.GroundZero_High, "Sandbox_high" }
+        { ELocationType.GroundZero_High, "Sandbox_high" },
+        { ELocationType.Labyrinth, "Labyrinth" }
     };
 
         foreach (ELocationType type in Enum.GetValues(typeof(ELocationType)))

@@ -32,7 +32,7 @@ public class CustomAssortData
     public Dictionary<string, CustomDogTag> DogTag { get; set; }
 
     [JsonPropertyName("Barter")]
-    public Dictionary<string, int> Barter { get; set; }
+    public Dictionary<string, double> Barter { get; set; }
 
     [JsonPropertyName("TrustLevel")]
     public int TrustLevel { get; set; }

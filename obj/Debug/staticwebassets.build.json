@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "WCl4RigxaTHSEsmAnWq9AWJCMuDQBqxhL9fDWzJiDrc=",
-  "Source": "火神之心-重生",
-  "BasePath": "_content/火神之心-重生",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"WCl4RigxaTHSEsmAnWq9AWJCMuDQBqxhL9fDWzJiDrc=","Source":"火神之心-重生","BasePath":"_content/火神之心-重生","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

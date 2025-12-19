@@ -24,7 +24,8 @@ using SPTarkov.Server.Core.Models.Enums;
 using SPTarkov.Server.Core.Routers;
 using System.IO;
 using SPTarkov.Server.Core.Models.Spt.Templates;
-namespace VulcanCore;
+namespace VulcanCore; 
+[Obsolete("此类型未使用, 但是我怕产生编译问题, 所以留着")]
 public static class LazyLoadUtils
 {
     public static void AddItem<T>(this LazyLoad<List<T>> lazyList, T item)

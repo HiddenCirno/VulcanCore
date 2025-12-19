@@ -15,5 +15,6 @@ public enum ELocationType
     Lighthouse = 1 << 8,        // 256
     TarkovStreets = 1 << 9,     // 512
     GroundZero = 1 << 10,       // 1024
-    GroundZero_High = 1 << 11   // 2048
+    GroundZero_High = 1 << 11,  // 2048
+    Labyrinth = 1 << 12         // 4096
 }

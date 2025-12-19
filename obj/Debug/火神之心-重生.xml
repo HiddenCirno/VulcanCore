@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>火神之心-重生</name>
+    </assembly>
+    <members>
+        <member name="M:VulcanCore.TraderUtils.InitTrader(VulcanCore.TraderBaseWithDesc,System.String,System.Int32,System.Int32,System.Int32,System.Boolean,System.String,System.String,SPTarkov.Server.Core.Servers.ConfigServer,SPTarkov.Server.Core.Services.DatabaseService,SPTarkov.Server.Core.Utils.Cloners.ICloner,SPTarkov.Server.Core.Routers.ImageRouter)">
+            <summary>
+            基于自定义格式文件创建一个新的商人
+            </summary>
+            <param name="traderBase">商人的base文件</param>
+            <param name="imagePath">存放商人头像的文件路径, 用于注册路由</param>
+            <param name="insuranceChance">保险返还概率（百分比 0~100）</param>
+            <param name="reflashMinTime">刷新最小间隔（秒）</param>
+            <param name="reflashMaxtime">刷新最大间隔（秒）</param>
+            <param name="addToRagfair">是否让商人在跳蚤市场可见</param>
+            <param name="creator">创建者名称（用于标识来源）</param>
+            <param name="modname">Mod名称（用于标识来源）</param>
+            <param name="configServer">SPT工具类传入</param>
+            <param name="databaseService">SPT工具类传入</param>
+            <param name="cloner">SPT工具类传入</param>
+            <param name="imageRouter">SPT工具类传入</param>
+        </member>
+    </members>
+</doc>

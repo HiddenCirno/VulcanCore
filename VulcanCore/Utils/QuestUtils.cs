@@ -75,7 +75,7 @@ public class QuestUtils
         questPattern.Location = customQuest.Location;
         questPattern.Restartable = customQuest.IsRestartableQuest;
         InitQuestConditions(questPattern.Conditions.AvailableForFinish, customQuest.QuestConditions.QuestFinishData, databaseService, cloner, logger);
-        InitQuestConditions(questPattern.Conditions.Fail, customQuest.QuestConditions.QUestFailedData, databaseService, cloner, logger);
+        InitQuestConditions(questPattern.Conditions.Fail, customQuest.QuestConditions.QuestFailedData, databaseService, cloner, logger);
         databaseService.GetQuests().TryAdd(questid, questPattern);
         //为了完成原版兼容, 奖励定义有任务ID, 必须在任务初始化后添加
         //应该可以重载
@@ -84,6 +84,7 @@ public class QuestUtils
     }
     public static void InitQuestConditions(List<QuestCondition> conditions, List<CustomQuestData> customquestdata, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
     {
+        var zhCNLang = databaseService.GetLocales().Global["ch"];
         foreach (CustomQuestData data in customquestdata)
         {
             switch (data)
@@ -150,14 +151,23 @@ public class QuestUtils
                     break;
                 default:
                     {
-                        VulcanLog.Warn("发现未处理的任务属性! ", logger);
+                        VulcanLog.Warn($"发现未处理的任务属性({data.Id})! ", logger);
                     }
                     break;
+            }
+            if (data.Locale != null)
+            {
+                zhCNLang.AddTransformer(lang =>
+                {
+                    lang[$"{data.Id}"] = data.Locale;
+                    return lang;
+                });
             }
         }
     }
     public static void InitFindItemDataConditions(List<QuestCondition> conditions, FindItemData findItemData, DatabaseService databaseService, ICloner cloner)
     {
+        var zhCNLang = databaseService.GetLocales().Global["ch"];
         var condition = databaseService.GetQuests()
             .SelectMany(q => q.Value.Conditions.AvailableForFinish)
             .FirstOrDefault(c => c.ConditionType == "FindItem");
@@ -167,10 +177,19 @@ public class QuestUtils
             copycondition.Id = findItemData.Id;
             copycondition.OnlyFoundInRaid = findItemData.FindInRaid;
             copycondition.Index = conditions.Count;
-            copycondition.Target = new ListOrT<string>(new List<string>(), default);
+            copycondition.VisibilityConditions.Clear();
+            copycondition.Target = new ListOrT<string>(new List<string>(), null);
             copycondition.Target.List.Add(findItemData.ItemId);
             copycondition.Value = (double)findItemData.Count;
             conditions.Add(copycondition);
+            if (findItemData.AutoLocale != null && findItemData.AutoLocale == true)
+            {
+                zhCNLang.AddTransformer(lang =>
+                {
+                    lang[$"{findItemData.Id}"] = $"在战局中找到{lang[$"{findItemData.ItemId} Name"]}";
+                    return lang;
+                });
+            }
         }
     }
     public static void InitFindItemGroupDataConditions(List<QuestCondition> conditions, FindItemGroupData findItemData, DatabaseService databaseService, ICloner cloner)
@@ -184,7 +203,8 @@ public class QuestUtils
             copycondition.Id = findItemData.Id;
             copycondition.OnlyFoundInRaid = findItemData.FindInRaid;
             copycondition.Index = conditions.Count;
-            copycondition.Target = new ListOrT<string>(new List<string>(), default);
+            copycondition.VisibilityConditions.Clear();
+            copycondition.Target = new ListOrT<string>(new List<string>(), null);
             foreach (string target in findItemData.Items)
             {
                 copycondition.Target.List.Add(VulcanUtil.ConvertHashID(target));
@@ -200,14 +220,24 @@ public class QuestUtils
             .FirstOrDefault(c => c.ConditionType == "HandoverItem");
         if (condition != null)
         {
+            var zhCNLang = databaseService.GetLocales().Global["ch"];
             var copycondition = cloner.Clone(condition);
             copycondition.Id = handItemData.Id;
             copycondition.OnlyFoundInRaid = handItemData.FindInRaid;
             copycondition.Index = conditions.Count;
-            copycondition.Target = new ListOrT<string>(new List<string>(), default);
+            copycondition.VisibilityConditions.Clear();
+            copycondition.Target = new ListOrT<string>(new List<string>(), null);
             copycondition.Target.List.Add(handItemData.ItemId);
             copycondition.Value = (double)handItemData.Count;
             conditions.Add(copycondition);
+            if (handItemData.AutoLocale != null && handItemData.AutoLocale == true)
+            {
+                zhCNLang.AddTransformer(lang =>
+                {
+                    lang[$"{handItemData.Id}"] = $"上交在战局中找到的{lang[$"{handItemData.ItemId} Name"]}";
+                    return lang;
+                });
+            }
         }
     }
     public static void InitHandoverItemGroupDataConditions(List<QuestCondition> conditions, HandoverItemGroupData handItemData, DatabaseService databaseService, ICloner cloner)
@@ -221,7 +251,8 @@ public class QuestUtils
             copycondition.Id = handItemData.Id;
             copycondition.OnlyFoundInRaid = handItemData.FindInRaid;
             copycondition.Index = conditions.Count;
-            copycondition.Target = new ListOrT<string>(new List<string>(), default);
+            copycondition.VisibilityConditions.Clear();
+            copycondition.Target = new ListOrT<string>(new List<string>(), null);
             foreach (string target in handItemData.Items)
             {
                 copycondition.Target.List.Add(VulcanUtil.ConvertHashID(target));
@@ -234,7 +265,7 @@ public class QuestUtils
     {
         var condition = databaseService.GetQuests()
             .SelectMany(q => q.Value.Conditions.AvailableForFinish)
-            .FirstOrDefault(c => c.ConditionType == "CounterCreator");
+            .FirstOrDefault(c => c.ConditionType == "CounterCreator" && c.Type == "Elimination");
         if (condition != null)
         {
             var copycondition = cloner.Clone(condition);
@@ -244,10 +275,15 @@ public class QuestUtils
             copycondition.OneSessionOnly = killTargetData.CompleteInOneRaid;
             copycondition.Value = (double)killTargetData.Count;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             var killtargets = databaseService.GetQuests()
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
                 .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "Kills"); // 获取 Counter 的 Conditions
+            var locationtargets = databaseService.GetQuests()
+                .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
+                .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
+                .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "Location"); // 获取 Counter 的 Conditions
             if (killtargets != null)
             {
                 var copytargets = cloner.Clone(killtargets);
@@ -277,8 +313,28 @@ public class QuestUtils
                         copytargets.EnemyEquipmentInclusive = list;
                     }
                 }
+                if (killTargetData.WeaponList.Count > 0)
+                {
+                    copytargets.Weapon.Clear();
+                    foreach (var weapon in killTargetData.WeaponList)
+                    {
+                        copytargets.Weapon.Add(VulcanUtil.ConvertHashID(weapon));
+                    }
+                }
                 copytargets.SavageRole = killTargetData.BotRole;
-                copytargets.Target = copytargets.Target = new ListOrT<string>(null, killTargetData.BotType);
+                copytargets.Target = new ListOrT<string>(null, killTargetData.BotType);
+                copycondition.Counter.Conditions.Add(copytargets);
+            }
+            if (locationtargets != null && killTargetData.Location > 0)
+            {
+                var copytargets = cloner.Clone(locationtargets);
+                copytargets.Id = VulcanUtil.ConvertHashID($"{killTargetData.Id}_LocationCounter");
+                var locations = BitMapUtils.GetLocationCode(killTargetData.Location);
+                copytargets.Target = new ListOrT<string>(new List<string>(), null);
+                foreach (string location in locations)
+                {
+                    copytargets.Target.List.Add(location);
+                }
                 copycondition.Counter.Conditions.Add(copytargets);
             }
             conditions.Add(copycondition);
@@ -294,6 +350,7 @@ public class QuestUtils
             var copycondition = cloner.Clone(condition);
             copycondition.Id = reachLevelData.Id;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             copycondition.CompareMethod = ">=";
             copycondition.Value = (double)reachLevelData.Count;
             conditions.Add(copycondition);
@@ -303,7 +360,7 @@ public class QuestUtils
     {
         var condition = databaseService.GetQuests()
             .SelectMany(q => q.Value.Conditions.AvailableForFinish)
-            .FirstOrDefault(c => c.ConditionType == "CounterCreator");
+            .FirstOrDefault(c => c.ConditionType == "CounterCreator" && c.Type == "Completion");
         if (condition != null)
         {
             var copycondition = cloner.Clone(condition);
@@ -313,6 +370,7 @@ public class QuestUtils
             copycondition.OneSessionOnly = visitPlaceData.CompleteInOneRaid;
             copycondition.Value = (double)1;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             var visittargets = databaseService.GetQuests()
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
@@ -337,7 +395,8 @@ public class QuestUtils
             var copycondition = cloner.Clone(condition);
             copycondition.Id = placeItemData.Id;
             copycondition.Index = conditions.Count;
-            copycondition.Target = new ListOrT<string>(new List<string>(), default);
+            copycondition.VisibilityConditions.Clear();
+            copycondition.Target = new ListOrT<string>(new List<string>(), null);
             copycondition.Target.List.Add(placeItemData.ItemId);
             copycondition.Value = (double)placeItemData.Count;
             copycondition.PlantTime = (double)placeItemData.Time;
@@ -349,7 +408,7 @@ public class QuestUtils
     {
         var condition = databaseService.GetQuests()
             .SelectMany(q => q.Value.Conditions.AvailableForFinish)
-            .FirstOrDefault(c => c.ConditionType == "CounterCreator");
+            .FirstOrDefault(c => c.ConditionType == "CounterCreator" && c.Type == "Completion");
         if (condition != null)
         {
             var copycondition = cloner.Clone(condition);
@@ -359,6 +418,7 @@ public class QuestUtils
             copycondition.OneSessionOnly = exitLocationData.CompleteInOneRaid;
             copycondition.Value = (double)exitLocationData.Count;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             var locationtargets = databaseService.GetQuests()
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
@@ -372,7 +432,7 @@ public class QuestUtils
                 var copytargets = cloner.Clone(locationtargets);
                 copytargets.Id = VulcanUtil.ConvertHashID($"{exitLocationData.Id}_LocationCounter");
                 var locations = BitMapUtils.GetLocationCode(exitLocationData.Locations);
-                copytargets.Target = new ListOrT<string>(new List<string>(), default);
+                copytargets.Target = new ListOrT<string>(new List<string>(), null);
                 foreach (string location in locations)
                 {
                     copytargets.Target.List.Add(location);
@@ -384,10 +444,10 @@ public class QuestUtils
                 var copytargets = cloner.Clone(exitstatustargets);
                 copytargets.Id = VulcanUtil.ConvertHashID($"{exitLocationData.Id}_ExitStatusCounter");
                 var statuslist = BitMapUtils.GetExitStatusCode(exitLocationData.ExitStatus);
-                copytargets.Target = new ListOrT<string>(new List<string>(), default);
+                copytargets.Status.Clear();
                 foreach (string status in statuslist)
                 {
-                    copytargets.Target.List.Add(status);
+                    copytargets.Status.Add(status);
                 }
                 copycondition.Counter.Conditions.Add(copytargets);
             }
@@ -418,6 +478,7 @@ public class QuestUtils
             var copycondition = cloner.Clone(condition);
             copycondition.Id = reachTraderStandingData.Id;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             copycondition.CompareMethod = ">=";
             copycondition.ConditionType = "TraderStanding";
             copycondition.Target = new ListOrT<string>(null, reachTraderStandingData.TraderId);
@@ -435,6 +496,7 @@ public class QuestUtils
             var copycondition = cloner.Clone(condition);
             copycondition.Id = reachTraderTrustLevelData.Id;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             copycondition.CompareMethod = ">=";
             copycondition.Target = new ListOrT<string>(null, reachTraderTrustLevelData.TraderId);
             copycondition.Value = (double)reachTraderTrustLevelData.TrustLevel;
@@ -451,6 +513,7 @@ public class QuestUtils
             var copycondition = cloner.Clone(condition);
             copycondition.Id = completeQuestData.Id;
             copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             copycondition.Target = new ListOrT<string>(null, completeQuestData.QuestId);
             copycondition.Status = BitMapUtils.GetQuestStatusCode(completeQuestData.QuestStatus);
             conditions.Add(copycondition);
@@ -469,14 +532,12 @@ public class QuestUtils
                     break;
                 case CustomAssortUnlockRewardData assortunlockreward:
                     {
-                        //这个类型不会在文件使用, 仅做中转
-                        //吧
-                        //哦, 用的用的
-                        //好像得用重载
-                        //根本不用重载
-                        //吗?
-                        //idc
-                        InitAssortUnlockRewards(assortunlockreward, databaseService, cloner);
+                        InitAssortUnlockRewards(assortunlockreward, databaseService, cloner, logger);
+                    }
+                    break;
+                case CustomRecipeUnlockRewardData recipeunlockreward:
+                    {
+                        InitRecipeUnlockRewards(recipeunlockreward, databaseService, cloner);
                     }
                     break;
                 case CustomExperienceRewardData experiencereward:
@@ -487,6 +548,21 @@ public class QuestUtils
                 case CustomTraderStandingRewardData traderstandingreward:
                     {
                         InitTraderStandingRewards(traderstandingreward, databaseService, cloner);
+                    }
+                    break;
+                case CustomCustomizationRewardData customizationreward:
+                    {
+                        InitCustomizationRewards(customizationreward, databaseService, cloner);
+                    }
+                    break;
+                case CustomAchievementRewardData achievementreward:
+                    {
+                        InitAchievementRewards(achievementreward, databaseService, cloner);
+                    }
+                    break;
+                case CustomPocketRewardData pocketreward:
+                    {
+                        InitPocketRewards(pocketreward, databaseService, cloner);
                     }
                     break;
                 default:
@@ -503,9 +579,35 @@ public class QuestUtils
         var rewardtarget = databaseService.GetQuests()
             .SelectMany(q => q.Value.Rewards[queststage])
             .FirstOrDefault(r => r.Type == RewardType.Item);
-        var target = GetQuest(itemRewardData.QuestId, databaseService).Rewards;
-        if (target.Count > 0)
+        if (!itemRewardData.IsAchievement)
         {
+            var target = GetQuest(itemRewardData.QuestId, databaseService).Rewards;
+            if (target.Count > 0)
+            {
+                if (rewardtarget != null)
+                {
+                    var copyreward = cloner.Clone(rewardtarget);
+                    var items = ItemUtils.ConvertItemListData(itemRewardData.Items, cloner);
+                    copyreward.Id = itemRewardData.Id;
+                    copyreward.Index = target.Count;
+                    copyreward.FindInRaid = itemRewardData.FindInRaid;
+                    copyreward.Unknown = itemRewardData.IsUnknownReward;
+                    copyreward.IsHidden = itemRewardData.IsHiddenReward;
+
+                    copyreward.Items.Clear();
+                    foreach (Item item in items)
+                    {
+                        copyreward.Items.Add(item);
+                    }
+                    copyreward.Target = copyreward.Items[0].Id;
+                    copyreward.Value = (double)itemRewardData.Count;
+                    target[queststage].Add(copyreward);
+                }
+            }
+        }
+        else
+        {
+            var target = AchievementUtils.GetAchievement(itemRewardData.QuestId, databaseService).Rewards.ToList();
             if (rewardtarget != null)
             {
                 var copyreward = cloner.Clone(rewardtarget);
@@ -522,8 +624,9 @@ public class QuestUtils
                 }
                 copyreward.Target = copyreward.Items[0].Id;
                 copyreward.Value = (double)itemRewardData.Count;
-                target[queststage].Add(copyreward);
+                target.Add(copyreward);
             }
+            AchievementUtils.GetAchievement(itemRewardData.QuestId, databaseService).Rewards = target;
         }
     }
     public static void InitItemRewards(CustomItemRewardData itemRewardData, string questid, DatabaseService databaseService, ICloner cloner)
@@ -544,6 +647,7 @@ public class QuestUtils
                 copyreward.Index = target.Count;
                 copyreward.FindInRaid = itemRewardData.FindInRaid;
                 copyreward.Unknown = itemRewardData.IsUnknownReward;
+                copyreward.IsHidden = itemRewardData.IsHiddenReward;
 
                 copyreward.Items.Clear();
                 foreach (Item item in items)
@@ -556,7 +660,47 @@ public class QuestUtils
             }
         }
     }
-    public static void InitAssortUnlockRewards(CustomAssortUnlockRewardData assortUnlockRewardData, DatabaseService databaseService, ICloner cloner)
+    public static void InitRecipeUnlockRewards(CustomRecipeUnlockRewardData recipeUnlockRewardData, DatabaseService databaseService, ICloner cloner)
+    {
+        //wip
+        var queststage = EnumUtils.GetQuestStageType(recipeUnlockRewardData.QuestStage);
+        var stringstage = queststage.ToString().ToLower();
+        var questid = recipeUnlockRewardData.QuestId;
+        var rewardid = recipeUnlockRewardData.Id;
+        var rewardtarget = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Rewards[queststage])
+            .FirstOrDefault(r => r.Type == RewardType.ProductionScheme);
+        var target = GetQuest(questid, databaseService).Rewards;
+        if (target.Count > 0)
+        {
+            if (rewardtarget != null)
+            {
+                var copyreward = cloner.Clone(rewardtarget);
+                var itemid = recipeUnlockRewardData.RecipeData.Output;
+                copyreward.Id = rewardid;
+                copyreward.Index = target.Count;
+                copyreward.Unknown = recipeUnlockRewardData.IsUnknownReward;
+                copyreward.IsHidden = recipeUnlockRewardData.IsHiddenReward;
+                copyreward.Items.Clear();
+                copyreward.Items.Add(new Item
+                {
+                    Id = VulcanUtil.ConvertHashID(recipeUnlockRewardData.Id),
+                    Template = itemid,
+                    Upd = new Upd
+                    {
+                        StackObjectsCount = 1,
+                        SpawnedInSession = true,
+                    }
+                });
+                copyreward.Target = copyreward.Items[0].Id;
+                copyreward.TraderId = (int)recipeUnlockRewardData.RecipeData.AreaType;
+                copyreward.LoyaltyLevel = (int)recipeUnlockRewardData.RecipeData.AreaLevel;
+                target[queststage].Add(copyreward);
+                RecipeUtils.InitRecipe(recipeUnlockRewardData.RecipeData, databaseService, cloner);
+            }
+        }
+    }
+    public static void InitAssortUnlockRewards(CustomAssortUnlockRewardData assortUnlockRewardData, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
     {
         var queststage = EnumUtils.GetQuestStageType(assortUnlockRewardData.QuestStage);
         var stringstage = queststage.ToString().ToLower();
@@ -577,6 +721,7 @@ public class QuestUtils
                 copyreward.Id = rewardid;
                 copyreward.Index = target.Count;
                 copyreward.Unknown = assortUnlockRewardData.IsUnknownReward;
+                copyreward.IsHidden = assortUnlockRewardData.IsHiddenReward;
                 copyreward.Items.Clear();
                 foreach (Item item in items)
                 {
@@ -586,7 +731,7 @@ public class QuestUtils
                 copyreward.TraderId = traderid;
                 copyreward.LoyaltyLevel = assortUnlockRewardData.AssortData.TrustLevel;
                 target[queststage].Add(copyreward);
-                AssortUtils.InitAssort((CustomAssortData)assortUnlockRewardData.AssortData, databaseService, cloner);
+                AssortUtils.InitAssort((CustomAssortData)assortUnlockRewardData.AssortData, databaseService, cloner, logger);
                 TraderUtils.GetTrader(traderid, databaseService).QuestAssort[stringstage].Add(assortitems[0].Id, questid);
             }
         }
@@ -607,6 +752,7 @@ public class QuestUtils
                 copyreward.Index = target.Count;
                 copyreward.Value = (double)experienceRewardData.Count; //死了妈的东西你就这么喜欢用double是吗
                 copyreward.Unknown = experienceRewardData.IsUnknownReward;
+                copyreward.IsHidden = experienceRewardData.IsHiddenReward;
                 target[queststage].Add(copyreward);
             }
         }
@@ -628,6 +774,90 @@ public class QuestUtils
                 copyreward.Value = traderStandingRewardData.Count;
                 copyreward.Target = (string)traderStandingRewardData.TraderId;
                 copyreward.Unknown = traderStandingRewardData.IsUnknownReward;
+                copyreward.IsHidden = traderStandingRewardData.IsHiddenReward;
+                target[queststage].Add(copyreward);
+            }
+        }
+    }
+    public static void InitCustomizationRewards(CustomCustomizationRewardData customiazationRewardData, DatabaseService databaseService, ICloner cloner)
+    {
+        var queststage = EnumUtils.GetQuestStageType(customiazationRewardData.QuestStage);
+        var achievements = databaseService.GetAchievements();
+        var rewardtarget = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Rewards[queststage])
+            .FirstOrDefault(r => r.Type == RewardType.CustomizationDirect);
+        if (!customiazationRewardData.IsAchievement)
+        {
+            var target = GetQuest(customiazationRewardData.QuestId, databaseService).Rewards;
+            if (target.Count > 0)
+            {
+                if (rewardtarget != null)
+                {
+                    var copyreward = cloner.Clone(rewardtarget);
+                    copyreward.Id = customiazationRewardData.Id;
+                    copyreward.Index = target.Count;
+                    copyreward.Target = (string)customiazationRewardData.TargetId;
+                    copyreward.Unknown = customiazationRewardData.IsUnknownReward;
+                    copyreward.IsHidden = customiazationRewardData.IsHiddenReward;
+                    target[queststage].Add(copyreward);
+                }
+            }
+        }
+        else
+        {
+            var target = AchievementUtils.GetAchievement(customiazationRewardData.QuestId, databaseService).Rewards.ToList();
+            if (rewardtarget != null)
+            {
+                var copyreward = cloner.Clone(rewardtarget);
+                copyreward.Id = customiazationRewardData.Id;
+                copyreward.Index = target.Count;
+                copyreward.Target = (string)customiazationRewardData.TargetId;
+                copyreward.Unknown = customiazationRewardData.IsUnknownReward;
+                copyreward.IsHidden = customiazationRewardData.IsHiddenReward;
+                target.Add(copyreward);
+            }
+            AchievementUtils.GetAchievement(customiazationRewardData.QuestId, databaseService).Rewards = target;
+        }
+    }
+    public static void InitAchievementRewards(CustomAchievementRewardData achievementRewardData, DatabaseService databaseService, ICloner cloner)
+    {
+        var queststage = EnumUtils.GetQuestStageType(achievementRewardData.QuestStage);
+        var rewardtarget = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Rewards[queststage])
+            .FirstOrDefault(r => r.Type == RewardType.Achievement);
+        var target = GetQuest(achievementRewardData.QuestId, databaseService).Rewards;
+        if (target.Count > 0)
+        {
+            if (rewardtarget != null)
+            {
+                var copyreward = cloner.Clone(rewardtarget);
+                copyreward.Id = achievementRewardData.Id;
+                copyreward.Index = target.Count;
+                copyreward.Target = (string)achievementRewardData.TargetId;
+                copyreward.Unknown = achievementRewardData.IsUnknownReward;
+                copyreward.IsHidden = achievementRewardData.IsHiddenReward;
+                target[queststage].Add(copyreward);
+            }
+        }
+    }
+    public static void InitPocketRewards(CustomPocketRewardData customPocketRewardData, DatabaseService databaseService, ICloner cloner)
+    {
+        var queststage = EnumUtils.GetQuestStageType(customPocketRewardData.QuestStage);
+        var rewardtarget = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Rewards[queststage])
+            .FirstOrDefault(r => r.Type == RewardType.Pockets);
+        var target = GetQuest(customPocketRewardData.QuestId, databaseService).Rewards;
+        if (target.Count > 0)
+        {
+            if (rewardtarget != null)
+            {
+                var copyreward = cloner.Clone(rewardtarget);
+                copyreward.Id = customPocketRewardData.Id;
+                copyreward.Index = target.Count;
+                copyreward.AvailableInGameEditions.Clear();
+                copyreward.Target = (string)customPocketRewardData.TargetId;
+                copyreward.Unknown = customPocketRewardData.IsUnknownReward;
+                copyreward.IsHidden = customPocketRewardData.IsHiddenReward;
                 target[queststage].Add(copyreward);
             }
         }
@@ -650,7 +880,6 @@ public class QuestUtils
                 Id = VulcanUtil.ConvertHashID($"{questLogicTree.Id}_PreQuest_{quest.Key}"),
                 QuestId = questid,
                 QuestStatus = quest.Value
-
             },
             databaseService, cloner);
         }
@@ -687,13 +916,3 @@ public class QuestUtils
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

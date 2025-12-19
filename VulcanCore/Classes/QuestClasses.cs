@@ -43,7 +43,7 @@ public class CustomQuestConditionsData
     [JsonPropertyName("Finish")]
     public List<CustomQuestData> QuestFinishData { get; set; }
     [JsonPropertyName("Failed")]
-    public List<CustomQuestData> QUestFailedData { get; set; }
+    public List<CustomQuestData> QuestFailedData { get; set; }
 }
 
 
@@ -68,6 +68,8 @@ public class CustomQuestData
     [JsonPropertyName("id")]
     [JsonConverter(typeof(MongoIdConverter))]
     public MongoId Id { get; set; }
+    [JsonPropertyName("locale")]
+    public string? Locale { get; set; }
     [JsonExtensionData]
     public Dictionary<string?, object?>? ExtensionData => _extensionData;
 
@@ -84,6 +86,8 @@ public class FindItemData : CustomQuestData
     public MongoId ItemId { get; set; }
     [JsonPropertyName("count")]
     public int Count { get; set; }
+    [JsonPropertyName("autolocale")]
+    public bool? AutoLocale { get; set; }
 }
 public class FindItemGroupData : CustomQuestData
 {
@@ -103,6 +107,8 @@ public class HandoverItemData : CustomQuestData
     public MongoId ItemId { get; set; }
     [JsonPropertyName("count")]
     public int Count { get; set; }
+    [JsonPropertyName("autolocale")]
+    public bool? AutoLocale { get; set; }
 }
 public class HandoverItemGroupData : CustomQuestData
 {
@@ -238,6 +244,10 @@ public class CompleteQuestData : CustomQuestData
 [JsonDerivedType(typeof(CustomSkillExperienceRewardData), "skillexperience")]
 [JsonDerivedType(typeof(CustomTraderStandingRewardData), "standing")]
 [JsonDerivedType(typeof(CustomTraderUnlockRewardData), "trader")]
+[JsonDerivedType(typeof(CustomCustomizationRewardData), "customization")]
+[JsonDerivedType(typeof(CustomAchievementRewardData), "achievement")]
+[JsonDerivedType(typeof(CustomPocketRewardData), "pocket")]
+
 public class CustomQuestRewardData
 {
     [JsonPropertyName("ID")]
@@ -250,6 +260,10 @@ public class CustomQuestRewardData
     public int QuestStage { get; set; }
     [JsonPropertyName("Unknown")]
     public bool IsUnknownReward { get; set; }
+    [JsonPropertyName("Hidden")]
+    public bool IsHiddenReward { get; set; }
+    [JsonPropertyName("IsAchievement")]
+    public bool IsAchievement { get; set; }
     [JsonExtensionData]
     public Dictionary<string?, object?>? ExtensionData => _extensionData;
 
@@ -269,6 +283,10 @@ public class CustomItemRewardData : CustomQuestRewardData
 public class CustomAssortUnlockRewardData : CustomQuestRewardData
 {
     public CustomLockedAssortData AssortData { get; set; }
+}
+public class CustomRecipeUnlockRewardData : CustomQuestRewardData
+{
+    public CustomLockedRecipeData RecipeData { get; set; }
 }
 
 public class CustomExperienceRewardData : CustomQuestRewardData
@@ -297,6 +315,24 @@ public class CustomTraderUnlockRewardData : CustomQuestRewardData
     [JsonPropertyName("Trader")]
     [JsonConverter(typeof(MongoIdConverter))]
     public MongoId TraderId { get; set; }
+}
+public class CustomCustomizationRewardData : CustomQuestRewardData
+{
+    [JsonPropertyName("Target")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId TargetId { get; set; }
+}
+public class CustomAchievementRewardData : CustomQuestRewardData
+{
+    [JsonPropertyName("Target")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId TargetId { get; set; }
+}
+public class CustomPocketRewardData : CustomQuestRewardData
+{
+    [JsonPropertyName("Target")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId TargetId { get; set; }
 }
 public class QuestLogicTree
 {

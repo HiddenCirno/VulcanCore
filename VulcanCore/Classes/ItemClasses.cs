@@ -11,6 +11,7 @@ using SPTarkov.Server.Core.Models.Eft.Common;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using System.Text.Json.Serialization;
 using static VulcanCore.VulcanUtil;
+using SPTarkov.Server.Core.Models.Enums;
 
 namespace VulcanCore;
 
@@ -46,6 +47,7 @@ public class CustomItemTemplate
 [JsonDerivedType(typeof(GiftBoxProps), "giftbox")]
 [JsonDerivedType(typeof(BuffItemProps), "buff")]
 [JsonDerivedType(typeof(QuestItemProps), "quest")]
+[JsonDerivedType(typeof(CustomSizeContainerProps), "container")]
 public class CustomProps
 {
     [JsonPropertyName("Name")]
@@ -79,10 +81,12 @@ public class CustomProps
     public int DefaultPrice { get; set; }
 
     [JsonPropertyName("RagfairPrice")]
-    public int RagfairPrice { get; set; }
+    public int? RagfairPrice { get; set; }
 
     [JsonPropertyName("RagfairType")]
     public string RagfairType { get; set; }
+    [JsonPropertyName("CopyPrice")]
+    public bool? CopyPrice { get; set; }
 
     [JsonPropertyName("isMoney")]
     public bool IsMoney { get; set; }
@@ -102,8 +106,10 @@ public class CustomProps
 }
 public class CustomFixedItemProps : CustomProps
 {
-    public string CustomFixID { get; set; }
-    public string[] FixType { get; set; }
+    [JsonPropertyName("CustomFixID")]
+    public MongoId? CustomFixID { get; set; }
+    [JsonPropertyName("FixType")]
+    public HashSet<string> FixType { get; set; }
 
 }
 
@@ -125,24 +131,224 @@ public class LootableItemProps : CustomFixedItemProps
     [JsonPropertyName("CanFindInRaid")]
     public bool CanFindInRaid { get; set; }
     [JsonPropertyName("CustomLoot")]
-    public bool UseCustomData { get; set; }
+    public bool? UseCustomData { get; set; }
     [JsonPropertyName("MapLoot")]
-    public bool MapLoot { get; set; }
+    public bool? MapLoot { get; set; }
     [JsonPropertyName("CustomMapLootTarget")]
     public string CustomMapLootTarget { get; set; }
     [JsonPropertyName("MapLootDivisor")]
     public int MapLootDivisor { get; set; }
     [JsonPropertyName("StaticLoot")]
-    public bool StaticLoot { get; set; }
+    public bool? StaticLoot { get; set; }
     [JsonPropertyName("CustomStaticLootTarget")]
     public string CustomStaticLootTarget { get; set; }
     [JsonPropertyName("StaticLootDivisor")]
     public int StaticLootDivisor { get; set; }
 }
-public class GiftBoxProps : CustomFixedItemProps
+public class CustomSizeContainerProps : LootableItemProps
 {
+    [JsonPropertyName("ContainerSizeWidth")]
+    public int ContainerCellsH { get; set; }
+    [JsonPropertyName("ContainerSizeHeight")]
+    public int ContainerCellsV { get; set; }
+}
+public class GiftBoxProps : LootableItemProps
+{
+    [JsonPropertyName("isGiftBox")]
+    public bool? IsGiftBox { get; set; }
+    [JsonPropertyName("isAdvGiftBox")]
+    public bool? IsAdvGiftBox { get; set; }
+    [JsonPropertyName("isSpecialBox")]
+    public bool? IsSpecialBox { get; set; }
+    [JsonPropertyName("isStaticBox")]
+    public bool? IsStaticBox { get; set; }
+    [JsonPropertyName("BoxData")]
+    public GiftBoxData? BoxData { get; set; }
+    [JsonPropertyName("StaticBoxData")]
+    public StaticGiftBoxData? StaticBoxData { get; set; }
+    [JsonPropertyName("SpecialBoxData")]
+    public SpecialGiftBoxData? SpecialBoxData { get; set; }
+    [JsonPropertyName("AdvBoxData")]
+    public AdvancedGiftBoxData? AdvancedBoxData { get; set; }
+}
+public class StaticGiftBoxData
+{
+    [JsonPropertyName("forcefindinraid")]
+    public bool ForcedFindInRaid { get; set; }
+    [JsonPropertyName("giftdata")]
+    public List<GiftData> GiftData { get; set; }
+}
+public class SpecialGiftBoxData
+{
+    [JsonPropertyName("giftdata")]
+    public List<GiftData> GiftData { get; set; }
+}
+public class AdvancedGiftBoxData
+{
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
+    [JsonPropertyName("forcefindinraid")]
+    public bool ForcedFindInRaid { get; set; }
+    [JsonPropertyName("giftdata")]
+    public string PoolName { get; set; }
+}
+
+[JsonDerivedType(typeof(GiftDataCustomPreset), "CustomPreset")]
+[JsonDerivedType(typeof(GiftDataVanillaPreset), "VanillaPreset")]
+[JsonDerivedType(typeof(GiftDataItemData), "Item")]
+[JsonDerivedType(typeof(GiftDataContainerData), "Container")]
+[JsonDerivedType(typeof(GiftDataSkillData), "Skill")]
+[JsonDerivedType(typeof(GiftDataExperienceData), "Experience")]
+[JsonDerivedType(typeof(GiftDataTraderStandingData), "Standing")]
+public class GiftData
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+}
+public class GiftDataCustomPreset : GiftData
+{
+    [JsonPropertyName("item")]
+    public List<CustomItem> Item { get; set; }
+}
+public class GiftDataVanillaPreset : GiftData
+{
+    [JsonPropertyName("item")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId Item { get; set; }
+}
+public class GiftDataItemData : GiftData
+{
+    [JsonPropertyName("itemid")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId ItemId { get; set; }
+    [JsonPropertyName("stackcount")]
+    public int Count { get; set; }
+}
+public class GiftDataContainerData : GiftData
+{
+    [JsonPropertyName("item")]
+    public List<CustomItem> Item { get; set; }
+}
+public class GiftDataSkillData : GiftData
+{
+    [JsonPropertyName("skill")]
+    public SkillTypes Skill { get; set; }
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
+    [JsonPropertyName("itemid")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId ItemId { get; set; }
+    [JsonPropertyName("stackcount")]
+    public int StackCount { get; set; }
+    [JsonPropertyName("forcefir")]
+    public bool ForcedFindInRaid { get; set; }
+}
+public class GiftDataExperienceData : GiftData
+{
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
+    [JsonPropertyName("itemid")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId ItemId { get; set; }
+    [JsonPropertyName("stackcount")]
+    public int StackCount { get; set; }
+    [JsonPropertyName("forcefir")]
+    public bool ForcedFindInRaid { get; set; }
+}
+public class GiftDataTraderStandingData : GiftData
+{
+    [JsonPropertyName("trader")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId TraderId { get; set; }
+    [JsonPropertyName("count")]
+    public double Count { get; set; }
+    [JsonPropertyName("itemid")]
+    [JsonConverter(typeof(MongoIdConverter))]
+    public MongoId ItemId { get; set; }
+    [JsonPropertyName("stackcount")]
+    public int StackCount { get; set; }
+    [JsonPropertyName("forcefir")]
+    public bool ForcedFindInRaid { get; set; }
+}
+public class GiftBoxData
+{
+    [JsonPropertyName("Count")]
+    public int Count { get; set; }
+    [JsonPropertyName("Rewards")]
+    public Dictionary<string, double> Rewards { get; set; }
+}
+
+public class DrawPoolClass
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+    [JsonPropertyName("basereward")]
+    public DrawPoolBaseRewardClass BaseReward { get; set; }
+    [JsonPropertyName("itempool")]
+    public DrawPoolItemPoolClass ItemPool { get; set; }
+}
+public class DrawPoolBaseRewardClass
+{
+    [JsonPropertyName("superrare")]
+    public DrawPoolBaseRewardSuperRare SuperRare { get; set; }
+    [JsonPropertyName("rare")]
+    public DrawPoolBaseRewardRare Rare { get; set; }
+    [JsonPropertyName("normal")]
+    public DrawPoolBaseRewardNormal Normal { get; set; }
+}
+public class DrawPoolBaseRewardSuperRare
+{
+    [JsonPropertyName("havebasereward")]
+    public bool HaveBaseReward { get; set; }
+    [JsonPropertyName("chance")]
+    public double Chance { get; set; }
+    [JsonPropertyName("upchance")]
+    public double UpChance { get; set; }
+    [JsonPropertyName("upaddchance")]
+    public double UpAddChance { get; set; }
+    [JsonPropertyName("chancegrowcount")]
+    public int ChanceGrowCount { get; set; }
+    [JsonPropertyName("chancegrowpercount")]
+    public double ChanceGrowPerCount { get; set; }
+}
+public class DrawPoolBaseRewardRare
+{
+    [JsonPropertyName("havebasereward")]
+    public bool HaveBaseReward { get; set; }
+    [JsonPropertyName("chance")]
+    public double Chance { get; set; }
+    [JsonPropertyName("upchance")]
+    public double UpChance { get; set; }
+    [JsonPropertyName("upaddchance")]
+    public double UpAddChance { get; set; }
+    [JsonPropertyName("chancegrowcount")]
+    public int ChanceGrowCount { get; set; }
+    [JsonPropertyName("chancegrowpercount")]
+    public double ChanceGrowPerCount { get; set; }
+}
+public class DrawPoolBaseRewardNormal
+{
+    [JsonPropertyName("upchance")]
+    public double UpChance { get; set; }
+}
+public class DrawPoolItemPoolClass
+{
+    [JsonPropertyName("superrare")]
+    public DrawPoolItemPoolReward SuperRare { get; set; }
+    [JsonPropertyName("rare")]
+    public DrawPoolItemPoolReward Rare {  get; set; }
+    [JsonPropertyName("normal")]
+    public DrawPoolItemPoolReward Normal { get; set; }
 
 }
+public class DrawPoolItemPoolReward
+{
+    [JsonPropertyName("chanceup")]
+    public List<GiftData> ChanceUp {get; set; }
+    [JsonPropertyName("normal")]
+    public List<GiftData> Normal { get; set;}
+}
+
 public class BuffItemProps : LootableItemProps
 {
     [JsonPropertyName("BuffValue")]
@@ -231,7 +437,6 @@ public record CustomItem : Item
     [JsonConverter(typeof(MongoIdConverter))]
     public required override MongoId Template { get; set; }
 }
-
 public class CustomDogTag
 {
     [JsonPropertyName("count")]
@@ -239,5 +444,11 @@ public class CustomDogTag
     [JsonPropertyName("level")]
     public int Level { get; set; }
     [JsonPropertyName("side")]
-    public int Side { get; set; }
+    public DogtagExchangeSide Side { get; set; }
+}
+public class CustomFixData
+{
+    public MongoId ItemId { get; set; }
+    public MongoId TargetId { get; set; }
+    public HashSet<string> FixType { get; set; }
 }

@@ -123,6 +123,11 @@ public static class VulcanUtil
             {
                 props["defAmmo"] = ConvertHashID(defAmmo.GetValue<string>());
             }
+            var FragmentType = props["FragmentType"];
+            if (FragmentType != null)
+            {
+                props["FragmentType"] = ConvertHashID(FragmentType.GetValue<string>());
+            }
             // StackSlots
             ModifySlotsOrChambers(props["StackSlots"]?.AsArray());
         }
@@ -210,6 +215,31 @@ public static class VulcanUtil
         {
             writer.WriteStringValue(value.ToString());
         }
+    }
+    public static T DrawFromList<T>(List<T> list)
+    {
+        if (list.Count == 0)
+        {
+            throw new ArgumentException("列表为空", nameof(list));
+        }
+
+        Random random = new Random();
+        int randomIndex = random.Next(list.Count);  // 生成一个随机索引
+        return list[randomIndex];
+    }
+    public static string DoubleToPercent(double num)
+    {
+        // 检查输入是否为有效数字
+        if (double.IsNaN(num))
+        {
+            return "NaN";
+        }
+
+        // 将浮点数乘以100转换为百分比，然后保留两位小数
+        var percent = (num * 100).ToString("F3");
+
+        // 添加百分号返回
+        return percent + "%";
     }
 }
 
