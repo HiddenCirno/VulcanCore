@@ -33,4 +33,8 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="items\" />
+  </ItemGroup>
 </Project>

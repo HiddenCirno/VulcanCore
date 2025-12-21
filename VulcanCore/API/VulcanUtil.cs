@@ -137,6 +137,67 @@ public static class VulcanUtil
         return jsonutil.Deserialize<T>(resultJson); // 返回处理后的 JsonNode
 
     }
+    public static T ConvertItemData<T>(string file, JsonUtil jsonutil)
+    {
+        JsonNode rootNode = JsonNode.Parse(file).AsObject();
+
+        var props = rootNode?["_props"]?.AsObject();
+        if (props != null)
+        {
+
+            // Slots
+            ModifySlotsOrChambers(props["Slots"]?.AsArray());
+
+            // Chambers
+            ModifySlotsOrChambers(props["Chambers"]?.AsArray());
+
+            // Grids
+            var grids = props["Grids"]?.AsArray();
+            if (grids != null)
+            {
+                foreach (var grid in grids)
+                {
+                    // _parent & _id
+                    if (grid?["_parent"] != null)
+                        grid["_parent"] = ConvertHashID(grid["_parent"]?.GetValue<string>());
+                    if (grid?["_id"] != null)
+                        grid["_id"] = ConvertHashID(grid["_id"]?.GetValue<string>());
+
+                    var filters = grid?["_props"]?["filters"]?.AsArray();
+                    if (filters != null && filters.Count > 0)
+                    {
+                        var filterArray = filters[0]?["Filter"]?.AsArray();
+                        var excludedArray = filters[0]?["ExcludedFilter"]?.AsArray();
+
+                        if (filterArray != null)
+                            for (int i = 0; i < filterArray.Count; i++)
+                                filterArray[i] = ConvertHashID(filterArray[i]?.GetValue<string>());
+
+                        if (excludedArray != null)
+                            for (int i = 0; i < excludedArray.Count; i++)
+                                excludedArray[i] = ConvertHashID(excludedArray[i]?.GetValue<string>());
+                    }
+                }
+            }
+            var defAmmo = props["defAmmo"];
+            if (defAmmo != null)
+            {
+                props["defAmmo"] = ConvertHashID(defAmmo.GetValue<string>());
+            }
+            var FragmentType = props["FragmentType"];
+            if (FragmentType != null)
+            {
+                props["FragmentType"] = ConvertHashID(FragmentType.GetValue<string>());
+            }
+            // StackSlots
+            ModifySlotsOrChambers(props["StackSlots"]?.AsArray());
+        }
+
+        string resultJson = rootNode.ToJsonString();
+
+        return jsonutil.Deserialize<T>(resultJson); // 返回处理后的 JsonNode
+
+    }
     public static void ModifySlotsOrChambers(JsonArray array)
     {
         if (array == null) return;
@@ -156,6 +217,8 @@ public static class VulcanUtil
                 if (filterArray != null)
                     for (int i = 0; i < filterArray.Count; i++)
                         filterArray[i] = ConvertHashID(filterArray[i]?.GetValue<string>());
+                if (filters[0]?["Plate"] != null)
+                    filters[0]["Plate"] = ConvertHashID(filters[0]["Plate"].GetValue<string>());
             }
         }
     }

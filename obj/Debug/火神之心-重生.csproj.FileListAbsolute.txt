@@ -54,3 +54,4 @@ D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\火神之心-�
 D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\火神之心-重生.pdb
 D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\ref\火神之心-重生.dll
 I:\TKF\SPT\user\mods\火神之心-重生\config.jsonc
+I:\TKF\SPT\user\mods\火神之心-重生\items\示例物品.json

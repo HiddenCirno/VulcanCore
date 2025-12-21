@@ -114,6 +114,19 @@ public class ItemUtils
             CreateAndAddItem(item.Value, item.Value.TargetId, creator, modname, logger, databaseService, cloner, configServer);
         }
     }
+    public static void InitItem(string folderPath, string creator, string modname, ISptLogger<VulcanCore> logger, DatabaseService databaseService, JsonUtil jsonUtil, ICloner cloner, ConfigServer configServer)
+    {
+        List<string> files = Directory.GetFiles(folderPath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileContent = File.ReadAllText(file);
+                var item = VulcanUtil.ConvertItemData<CustomItemTemplate>(fileContent, jsonUtil);
+                ItemUtils.CreateAndAddItem(item, item.TargetId, creator, modname, logger, databaseService, cloner, configServer);
+            }
+        }
+    }
     public static void CreateAndAddItem(CustomItemTemplate template, string targetid, string creator, string modname, ISptLogger<VulcanCore> logger, DatabaseService databaseService, ICloner cloner, ConfigServer configServer)
     {
         //TemplateItem itemClone = VulcanUtil.DeepCopyJson(GetItem(targetid, databaseService));
@@ -167,7 +180,7 @@ public class ItemUtils
         //≥¢ ‘ÃÌº”ŒÔ∆∑
         databaseService.GetItems().TryAdd(itemid, itemClone);
         //Kappa
-        if(template.CustomProps.AddToKappa == true)
+        if (template.CustomProps.AddToKappa == true)
         {
             AddItemToKappa(template, databaseService, cloner);
         }
