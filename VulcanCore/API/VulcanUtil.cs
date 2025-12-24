@@ -81,57 +81,14 @@ public static class VulcanUtil
 
         foreach (var item in rootNode.AsObject())
         {
-            var props = item.Value?["_props"]?.AsObject();
-            if (props == null) continue;
-
-            // Slots
-            ModifySlotsOrChambers(props["Slots"]?.AsArray());
-
-            // Chambers
-            ModifySlotsOrChambers(props["Chambers"]?.AsArray());
-
-            // Grids
-            var grids = props["Grids"]?.AsArray();
-            if (grids != null)
-            {
-                foreach (var grid in grids)
-                {
-                    // _parent & _id
-                    if (grid?["_parent"] != null)
-                        grid["_parent"] = ConvertHashID(grid["_parent"]?.GetValue<string>());
-                    if (grid?["_id"] != null)
-                        grid["_id"] = ConvertHashID(grid["_id"]?.GetValue<string>());
-
-                    var filters = grid?["_props"]?["filters"]?.AsArray();
-                    if (filters != null && filters.Count > 0)
-                    {
-                        var filterArray = filters[0]?["Filter"]?.AsArray();
-                        var excludedArray = filters[0]?["ExcludedFilter"]?.AsArray();
-
-                        if (filterArray != null)
-                            for (int i = 0; i < filterArray.Count; i++)
-                                filterArray[i] = ConvertHashID(filterArray[i]?.GetValue<string>());
-
-                        if (excludedArray != null)
-                            for (int i = 0; i < excludedArray.Count; i++)
-                                excludedArray[i] = ConvertHashID(excludedArray[i]?.GetValue<string>());
-                    }
-                }
-            }
-            var defAmmo = props["defAmmo"];
-            if (defAmmo != null)
-            {
-                props["defAmmo"] = ConvertHashID(defAmmo.GetValue<string>());
-            }
-            var FragmentType = props["FragmentType"];
-            if (FragmentType != null)
-            {
-                props["FragmentType"] = ConvertHashID(FragmentType.GetValue<string>());
-            }
-            // StackSlots
-            ModifySlotsOrChambers(props["StackSlots"]?.AsArray());
+            //var files = item.Value.AsValue().ToString();
+            //草率了, 这里不应该用泛型定义方法返回值的....
+            //就这样吧, 反正本来也是给自定义物品用的
+            //再改还得改其他mod, 太麻烦了
+            //论屎山是怎么形成的.jpg
+            var result = ResolveJsonNode<CustomItemTemplate>(item.Value, jsonutil);
+            rootNode[item.Key] = JsonNode.Parse(jsonutil.Serialize(result));
         }
-
         string resultJson = rootNode.ToJsonString();
 
         return jsonutil.Deserialize<T>(resultJson); // 返回处理后的 JsonNode
@@ -140,8 +97,12 @@ public static class VulcanUtil
     public static T ConvertItemData<T>(string file, JsonUtil jsonutil)
     {
         JsonNode rootNode = JsonNode.Parse(file).AsObject();
+        return ResolveJsonNode<T>(rootNode, jsonutil); // 返回处理后的 JsonNode
 
-        var props = rootNode?["_props"]?.AsObject();
+    }
+    public static T ResolveJsonNode<T>(JsonNode node, JsonUtil jsonUtil)
+    {
+        var props = node?["_props"]?.AsObject();
         if (props != null)
         {
 
@@ -189,14 +150,24 @@ public static class VulcanUtil
             {
                 props["FragmentType"] = ConvertHashID(FragmentType.GetValue<string>());
             }
+            var conflict = props["ConflictingItems"];
+            if (conflict != null)
+            {
+                var conflicts = props["ConflictingItems"]?.AsArray();
+                for (int i = 0; i < conflicts.Count; i++)
+                {
+                    conflicts[i] = ConvertHashID(conflicts[i]?.GetValue<string>());
+                }
+            }
+            //明天需要整理提取合并
+            //sbgpt
             // StackSlots
             ModifySlotsOrChambers(props["StackSlots"]?.AsArray());
         }
 
-        string resultJson = rootNode.ToJsonString();
+        string resultJson = node.ToJsonString();
 
-        return jsonutil.Deserialize<T>(resultJson); // 返回处理后的 JsonNode
-
+        return jsonUtil.Deserialize<T>(resultJson); // 返回处理后的 JsonNode
     }
     public static void ModifySlotsOrChambers(JsonArray array)
     {

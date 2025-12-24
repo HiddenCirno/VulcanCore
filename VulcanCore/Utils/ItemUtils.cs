@@ -1305,5 +1305,31 @@ public class ItemUtils
         //VulcanLog.Warn("警告! 无法获取卡池信息", logger);
         return result;
     }
+    public static void AddModsToInventory(BotBaseInventory inventory, MongoId itemid, MongoId targetid, string slotid, ISptLogger<VulcanCore> logger)
+    {
+        var items = inventory.Items.FirstOrDefault(x => x.Template == targetid);
+        if (items == null)
+        {
+            return;
+        }
+        else
+        {
+            var parentid = items.Id;
+            var newitems = new Item
+            {
+                Id = new MongoId(),
+                Template = itemid,
+                ParentId = parentid,
+                SlotId = slotid,
+                Upd = new Upd
+                {
+                    StackObjectsCount = 1,
+                    SpawnedInSession = true
+                }
+            };
+            inventory.Items.Add(newitems);
+        }
+        //logger.LogWithColor("尝试生成箭头", LogTextColor.Magenta);
+    }
 }
 
