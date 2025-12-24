@@ -189,17 +189,24 @@ public class ItemUtils
     public static void AddItemToKappa(CustomItemTemplate item, DatabaseService databaseService, ICloner cloner)
     {
         var kappa = QuestUtils.GetQuest(QuestTpl.COLLECTOR, databaseService);
+        var twitchcase = GetItem(ItemTpl.CONTAINER_STREAMER_ITEM_CASE, databaseService);
         var conditions = kappa.Conditions.AvailableForFinish;
+        var itemid = VulcanUtil.ConvertHashID(item.Id);
         QuestUtils.InitHandoverItemDataConditions(conditions, new HandoverItemData
         {
             Id = VulcanUtil.ConvertHashID($"Kappa_{item.Id}"),
             FindInRaid = true,
-            ItemId = VulcanUtil.ConvertHashID(item.Id),
+            ItemId = itemid,
             Count = 1,
             AutoLocale = true
 
         },
         databaseService, cloner);
+        var twitchcasecontainer = twitchcase.Properties.Grids.First().Properties.Filters.First().Filter;
+        if (!twitchcasecontainer.Contains(itemid))
+        {
+            twitchcasecontainer.Add(itemid);
+        }
     }
     public static Dictionary<string, LocaleDetails> BuildItemLocales(CustomProps props, string creator, string modname)
     {
