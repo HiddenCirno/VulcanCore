@@ -1,7 +1,10 @@
-﻿using SPTarkov.DI.Annotations;
+﻿using HarmonyLib;
+using SPTarkov.DI.Annotations;
+using SPTarkov.Reflection.Patching;
 using SPTarkov.Server.Core.Controllers;
 using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Helpers;
+using SPTarkov.Server.Core.Loaders;
 using SPTarkov.Server.Core.Models.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Eft.Ragfair;
@@ -14,9 +17,8 @@ using SPTarkov.Server.Core.Services;
 using SPTarkov.Server.Core.Services.Mod;
 using SPTarkov.Server.Core.Utils;
 using SPTarkov.Server.Core.Utils.Cloners;
-using SPTarkov.Reflection.Patching;
 using System.Reflection;
-using HarmonyLib;
+using System.Runtime.CompilerServices;
 using System.Threading;
 namespace VulcanCore;
 public record ModMetadata : AbstractModMetadata
@@ -33,6 +35,31 @@ public record ModMetadata : AbstractModMetadata
     public override bool? IsBundleMod { get; init; } = false;
     public override string? License { get; init; } = "MIT";
 }
+public static class Init
+{
+    private static bool _initialized;
+    private static readonly object InitLock = new();
+
+    [ModuleInitializer]
+    public static void Initialize()
+    {
+        lock (InitLock)
+        {
+            if (_initialized) return;
+            _initialized = true;
+
+            try
+            {
+                //var harmony = new Harmony("com.hiddenhiragi.vulcancore");
+                //harmony.PatchAll(typeof(Init).Assembly);
+                new AddBundlePatch().Enable();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    }
+}
 [Injectable(TypePriority = OnLoadOrder.PreSptModLoader + 1)]
 public class CorePreSptLoad(
     ISptLogger<VulcanCore> logger,
@@ -48,6 +75,7 @@ public class CorePreSptLoad(
 {
     public Task OnLoad()
     {
+        //new AddBundlePatch().Enable();
         //new SafeRagfairPricePatch().Enable();
         //var traderBase = modHelper.GetJsonDataFromFile<TraderBase>(pathToMod, "db/base.json");
         //VulcanUtil.DoAsyncWork(logger);

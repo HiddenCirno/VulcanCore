@@ -67,19 +67,19 @@ public class CustomizationUtils
             return lang;
         });
     }
-    public static void InitHideoutCustomiaztionData(Dictionary<string, CustomHideoutCustomization> customData, DatabaseService databaseService, ICloner cloner)
+    public static void InitHideoutCustomiaztionData(Dictionary<string, CustomHideoutCustomization> customData, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
     {
         foreach (var item in customData)
         {
-            InitHideoutCustomization(item.Value, databaseService, cloner);
+            InitHideoutCustomization(item.Value, databaseService, cloner, logger);
         }
     }
-    public static void InitHideoutCustomization(CustomHideoutCustomization customCustomHideoutCustomization, DatabaseService databaseService, ICloner cloner)
+    public static void InitHideoutCustomization(CustomHideoutCustomization customCustomHideoutCustomization, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
     {
         var zhCNLang = databaseService.GetLocales().Global["ch"];
         var customs = databaseService.GetHideout().Customisation.Globals;
         var customid = customCustomHideoutCustomization.Id;
-        customs.Add(new HideoutCustomisationGlobal
+        var conditions = new HideoutCustomisationGlobal
         {
             Id = customid,
             SystemName = customCustomHideoutCustomization.Name,
@@ -88,7 +88,9 @@ public class CustomizationUtils
             Index = 0,
             ItemId = customCustomHideoutCustomization.Target,
             Type = customCustomHideoutCustomization.Type,
-        });
+        };
+        QuestUtils.InitQuestConditions(conditions.Conditions, customCustomHideoutCustomization.Conditions, databaseService, cloner, logger);
+        customs.Add(conditions);
         zhCNLang.AddTransformer(lang =>
         {
             lang[$"{customid} name"] = customCustomHideoutCustomization.Name;

@@ -62,6 +62,7 @@ public class CustomQuestConditionsData
 [JsonDerivedType(typeof(ReachTraderTrustLevelData), "trust")]
 [JsonDerivedType(typeof(ReachTraderStandingData), "standing")]
 [JsonDerivedType(typeof(CompleteQuestData), "quest")]
+[JsonDerivedType(typeof(CustomizationBlockData), "block")]
 
 public class CustomQuestData
 {
@@ -236,6 +237,10 @@ public class CompleteQuestData : CustomQuestData
     public MongoId QuestId { get; set; }
     [JsonPropertyName("status")]
     public int QuestStatus { get; set; }
+}
+public class CustomizationBlockData : CustomQuestData
+{
+
 }
 [JsonDerivedType(typeof(CustomQuestRewardData), "base")]
 [JsonDerivedType(typeof(CustomItemRewardData), "item")]

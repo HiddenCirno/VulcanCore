@@ -149,6 +149,11 @@ public class QuestUtils
                         InitCompleteQuestDataConditions(conditions, completequestdata, databaseService, cloner);
                     }
                     break;
+                case CustomizationBlockData customizationblockdata:
+                    {
+                        InitCustomizationBlockDataConditions(conditions, customizationblockdata, databaseService, cloner);
+                    }
+                    break;
                 default:
                     {
                         VulcanLog.Warn($"发现未处理的任务属性({data.Id})! ", logger);
@@ -516,6 +521,22 @@ public class QuestUtils
             copycondition.VisibilityConditions.Clear();
             copycondition.Target = new ListOrT<string>(null, completeQuestData.QuestId);
             copycondition.Status = BitMapUtils.GetQuestStatusCode(completeQuestData.QuestStatus);
+            conditions.Add(copycondition);
+        }
+    }
+    public static void InitCustomizationBlockDataConditions(List<QuestCondition> conditions, CustomizationBlockData customizationBlockData, DatabaseService databaseService, ICloner cloner)
+    {
+        var condition = databaseService.GetHideout()
+            .Customisation
+            .Globals
+            .SelectMany(q => q.Conditions)
+            .FirstOrDefault(c => c.ConditionType == "Block");
+        if (condition != null)
+        {
+            var copycondition = cloner.Clone(condition);
+            copycondition.Id = customizationBlockData.Id;
+            copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
             conditions.Add(copycondition);
         }
     }

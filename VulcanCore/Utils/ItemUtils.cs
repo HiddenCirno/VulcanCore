@@ -158,6 +158,16 @@ public class ItemUtils
         {
             AddBlackList(template, configServer);
         }
+        //携带限制
+        if (template.CustomProps.InRaidCountLimit != null)
+        {
+            SetInRaidLimitCount(template, databaseService);
+        }
+        //自定义狗牌生成
+        if (template.CustomProps.ApplyAsPMCDogTag == true)
+        {
+            SetCustomPMCDogTag(template, configServer);
+        }
         //手册数据
         AddPriceData(template, databaseService);
         //武器相关
@@ -1337,6 +1347,51 @@ public class ItemUtils
             inventory.Items.Add(newitems);
         }
         //logger.LogWithColor("尝试生成箭头", LogTextColor.Magenta);
+    }
+    public static void SetInRaidLimitCount(CustomItemTemplate template, DatabaseService databaseService)
+    {
+        var globals = databaseService.GetGlobals();
+        var limits = globals.Configuration.RestrictionsInRaid.ToList();
+        limits.Add(new RestrictionsInRaid
+        {
+            TemplateId = VulcanUtil.ConvertHashID(template.Id),
+            MaxInLobby = (double)template.CustomProps.InLobbyCountLimit,
+            MaxInRaid = (double)template.CustomProps.InRaidCountLimit
+        });
+        globals.Configuration.RestrictionsInRaid = limits.ToArray();
+    }
+    public static void SetCustomPMCDogTag(CustomItemTemplate template, ConfigServer configServer)
+    {
+        var pmcconfig = configServer.GetConfig<PmcConfig>();
+        var customprops = template.CustomProps;
+        if (customprops.ApplyToBEAR == true)
+        {
+            SetCustomDotTagGenerate(template, PlayerSide.Bear, configServer);
+        }
+        if (customprops.ApplyToUSEC == true)
+        {
+            SetCustomDotTagGenerate(template, PlayerSide.Usec, configServer);
+        }
+    }
+    public static void SetCustomDotTagGenerate(CustomItemTemplate template, PlayerSide side, ConfigServer configServer)
+    {
+
+        var pmcconfig = configServer.GetConfig<PmcConfig>();
+        var customprops = template.CustomProps;
+        var sidestring = side == PlayerSide.Bear ? "bear" : "usec";
+        var itemid = VulcanUtil.ConvertHashID(template.Id);
+        if (customprops.ApplyToStandard == true)
+        {
+            pmcconfig.DogtagSettings[sidestring]["default"].Add(itemid, 1);
+        }
+        if (customprops.ApplyToEOD == true)
+        {
+            pmcconfig.DogtagSettings[sidestring]["edge_of_darkness"].Add(itemid, 1);
+        }
+        if (customprops.ApplyToUnheard == true)
+        {
+            pmcconfig.DogtagSettings[sidestring]["unheard_edition"].Add(itemid, 1);
+        }
     }
 }
 

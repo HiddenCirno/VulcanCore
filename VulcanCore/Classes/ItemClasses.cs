@@ -98,6 +98,22 @@ public class CustomProps
     public int BlackListType { get; set; }
     [JsonPropertyName("SafeMode")]
     public bool SafeMode { get; set; }
+    [JsonPropertyName("InRaidLimit")]
+    public int? InRaidCountLimit { get; set; }
+    [JsonPropertyName("InLobbyLimit")]
+    public int? InLobbyCountLimit { get; set; }
+    [JsonPropertyName("ApplyAsPMCDogTag")]
+    public bool? ApplyAsPMCDogTag { get; set; }
+    [JsonPropertyName("ApplyToBEAR")]
+    public bool? ApplyToBEAR { get; set; }
+    [JsonPropertyName("ApplyToUSEC")]
+    public bool? ApplyToUSEC { get; set; }
+    [JsonPropertyName("ApplyToStandard")]
+    public bool? ApplyToStandard { get; set; }
+    [JsonPropertyName("ApplyToEOD")]
+    public bool? ApplyToEOD { get; set; }
+    [JsonPropertyName("ApplyToUnheard")]
+    public bool? ApplyToUnheard { get; set; }
     [JsonExtensionData]
     public Dictionary<string?, object?>? ExtensionData => _extensionData;
 
