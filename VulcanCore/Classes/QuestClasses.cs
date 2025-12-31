@@ -269,6 +269,8 @@ public class CustomQuestRewardData
     public bool IsHiddenReward { get; set; }
     [JsonPropertyName("IsAchievement")]
     public bool IsAchievement { get; set; }
+    [JsonPropertyName("AvailableGameEdition")]
+    public int? AvailableGameEdition { get; set; }
     [JsonExtensionData]
     public Dictionary<string?, object?>? ExtensionData => _extensionData;
 

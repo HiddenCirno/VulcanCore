@@ -607,21 +607,8 @@ public class QuestUtils
             {
                 if (rewardtarget != null)
                 {
-                    var copyreward = cloner.Clone(rewardtarget);
-                    var items = ItemUtils.ConvertItemListData(itemRewardData.Items, cloner);
-                    copyreward.Id = itemRewardData.Id;
-                    copyreward.Index = target.Count;
-                    copyreward.FindInRaid = itemRewardData.FindInRaid;
-                    copyreward.Unknown = itemRewardData.IsUnknownReward;
-                    copyreward.IsHidden = itemRewardData.IsHiddenReward;
 
-                    copyreward.Items.Clear();
-                    foreach (Item item in items)
-                    {
-                        copyreward.Items.Add(item);
-                    }
-                    copyreward.Target = copyreward.Items[0].Id;
-                    copyreward.Value = (double)itemRewardData.Count;
+                    var copyreward = GetItemReward(rewardtarget, target[queststage], itemRewardData, cloner);
                     target[queststage].Add(copyreward);
                 }
             }
@@ -631,20 +618,7 @@ public class QuestUtils
             var target = AchievementUtils.GetAchievement(itemRewardData.QuestId, databaseService).Rewards.ToList();
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
-                var items = ItemUtils.ConvertItemListData(itemRewardData.Items, cloner);
-                copyreward.Id = itemRewardData.Id;
-                copyreward.Index = target.Count;
-                copyreward.FindInRaid = itemRewardData.FindInRaid;
-                copyreward.Unknown = itemRewardData.IsUnknownReward;
-
-                copyreward.Items.Clear();
-                foreach (Item item in items)
-                {
-                    copyreward.Items.Add(item);
-                }
-                copyreward.Target = copyreward.Items[0].Id;
-                copyreward.Value = (double)itemRewardData.Count;
+                var copyreward = GetItemReward(rewardtarget, target, itemRewardData, cloner);
                 target.Add(copyreward);
             }
             AchievementUtils.GetAchievement(itemRewardData.QuestId, databaseService).Rewards = target;
@@ -935,5 +909,37 @@ public class QuestUtils
             },
             databaseService, cloner);
         }
+    }
+    public static Reward InitCopiedReward(Reward reward, List<Reward> target, CustomQuestRewardData rewardData, ICloner cloner)
+    {
+        var copyreward = cloner.Clone(reward);
+        copyreward.Id = rewardData.Id;
+        copyreward.Index = target.Count;
+        copyreward.AvailableInGameEditions?.Clear();
+        if (rewardData.AvailableGameEdition != null && copyreward.AvailableInGameEditions != null)
+        {
+            var gameversion = BitMapUtils.GetGameVersionCode((int)rewardData.AvailableGameEdition);
+            foreach (var v in gameversion)
+            {
+                copyreward.AvailableInGameEditions.Add(v);
+                //Console.WriteLine(v);
+            }
+        }
+        return copyreward;
+    }
+    public static Reward GetItemReward(Reward rewardtarget, List<Reward> target, CustomItemRewardData itemRewardData, ICloner cloner)
+    {
+        var copyreward = InitCopiedReward(rewardtarget, target, itemRewardData, cloner);
+        var items = ItemUtils.ConvertItemListData(itemRewardData.Items, cloner);
+        copyreward.FindInRaid = itemRewardData.FindInRaid;
+        copyreward.Unknown = itemRewardData.IsUnknownReward;
+        copyreward.Items.Clear();
+        foreach (Item item in items)
+        {
+            copyreward.Items.Add(item);
+        }
+        copyreward.Target = copyreward.Items[0].Id;
+        copyreward.Value = (double)itemRewardData.Count;
+        return copyreward;
     }
 }

@@ -40,6 +40,20 @@ public class BitMapUtils
 
         return result;
     }
+    public static List<string> GetGameVersionCode(int bitmask)
+    {
+        var result = new List<string>();
+
+        foreach (EGameVersionType type in Enum.GetValues(typeof(EGameVersionType)))
+        {
+            if (type != EGameVersionType.none && (bitmask & (int)type) != 0)
+            {
+                result.Add(type.ToString());
+            }
+        }
+
+        return result;
+    }
     public static List<string> GetBodyPartCode(int bitmask)
     {
         var result = new List<string>();
