@@ -639,12 +639,8 @@ public class QuestUtils
         {
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], recipeUnlockRewardData, cloner);
                 var itemid = recipeUnlockRewardData.RecipeData.Output;
-                copyreward.Id = rewardid;
-                copyreward.Index = target.Count;
-                copyreward.Unknown = recipeUnlockRewardData.IsUnknownReward;
-                copyreward.IsHidden = recipeUnlockRewardData.IsHiddenReward;
                 copyreward.Items.Clear();
                 copyreward.Items.Add(new Item
                 {
@@ -678,14 +674,10 @@ public class QuestUtils
         {
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], assortUnlockRewardData, cloner);
                 var assortitems = ItemUtils.ConvertItemListData(assortUnlockRewardData.AssortData.Item, cloner);
                 var items = ItemUtils.RegenerateItemListData(assortitems, (string)rewardid, cloner);
                 var traderid = assortUnlockRewardData.AssortData.Trader;
-                copyreward.Id = rewardid;
-                copyreward.Index = target.Count;
-                copyreward.Unknown = assortUnlockRewardData.IsUnknownReward;
-                copyreward.IsHidden = assortUnlockRewardData.IsHiddenReward;
                 copyreward.Items.Clear();
                 foreach (Item item in items)
                 {
@@ -711,12 +703,8 @@ public class QuestUtils
         {
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
-                copyreward.Id = experienceRewardData.Id;
-                copyreward.Index = target.Count;
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], experienceRewardData, cloner);
                 copyreward.Value = (double)experienceRewardData.Count; //死了妈的东西你就这么喜欢用double是吗
-                copyreward.Unknown = experienceRewardData.IsUnknownReward;
-                copyreward.IsHidden = experienceRewardData.IsHiddenReward;
                 target[queststage].Add(copyreward);
             }
         }
@@ -732,13 +720,9 @@ public class QuestUtils
         {
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
-                copyreward.Id = traderStandingRewardData.Id;
-                copyreward.Index = target.Count;
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], traderStandingRewardData, cloner);
                 copyreward.Value = traderStandingRewardData.Count;
                 copyreward.Target = (string)traderStandingRewardData.TraderId;
-                copyreward.Unknown = traderStandingRewardData.IsUnknownReward;
-                copyreward.IsHidden = traderStandingRewardData.IsHiddenReward;
                 target[queststage].Add(copyreward);
             }
         }
@@ -757,12 +741,7 @@ public class QuestUtils
             {
                 if (rewardtarget != null)
                 {
-                    var copyreward = cloner.Clone(rewardtarget);
-                    copyreward.Id = customiazationRewardData.Id;
-                    copyreward.Index = target.Count;
-                    copyreward.Target = (string)customiazationRewardData.TargetId;
-                    copyreward.Unknown = customiazationRewardData.IsUnknownReward;
-                    copyreward.IsHidden = customiazationRewardData.IsHiddenReward;
+                    var copyreward = GetCustomizationReward(rewardtarget, target[queststage], customiazationRewardData, cloner);
                     target[queststage].Add(copyreward);
                 }
             }
@@ -772,12 +751,7 @@ public class QuestUtils
             var target = AchievementUtils.GetAchievement(customiazationRewardData.QuestId, databaseService).Rewards.ToList();
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
-                copyreward.Id = customiazationRewardData.Id;
-                copyreward.Index = target.Count;
-                copyreward.Target = (string)customiazationRewardData.TargetId;
-                copyreward.Unknown = customiazationRewardData.IsUnknownReward;
-                copyreward.IsHidden = customiazationRewardData.IsHiddenReward;
+                var copyreward = GetCustomizationReward(rewardtarget, target, customiazationRewardData, cloner);
                 target.Add(copyreward);
             }
             AchievementUtils.GetAchievement(customiazationRewardData.QuestId, databaseService).Rewards = target;
@@ -794,12 +768,8 @@ public class QuestUtils
         {
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
-                copyreward.Id = achievementRewardData.Id;
-                copyreward.Index = target.Count;
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], achievementRewardData, cloner);
                 copyreward.Target = (string)achievementRewardData.TargetId;
-                copyreward.Unknown = achievementRewardData.IsUnknownReward;
-                copyreward.IsHidden = achievementRewardData.IsHiddenReward;
                 target[queststage].Add(copyreward);
             }
         }
@@ -815,13 +785,8 @@ public class QuestUtils
         {
             if (rewardtarget != null)
             {
-                var copyreward = cloner.Clone(rewardtarget);
-                copyreward.Id = customPocketRewardData.Id;
-                copyreward.Index = target.Count;
-                copyreward.AvailableInGameEditions.Clear();
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], customPocketRewardData, cloner);
                 copyreward.Target = (string)customPocketRewardData.TargetId;
-                copyreward.Unknown = customPocketRewardData.IsUnknownReward;
-                copyreward.IsHidden = customPocketRewardData.IsHiddenReward;
                 target[queststage].Add(copyreward);
             }
         }
@@ -902,6 +867,7 @@ public class QuestUtils
         var items = ItemUtils.ConvertItemListData(itemRewardData.Items, cloner);
         copyreward.FindInRaid = itemRewardData.FindInRaid;
         copyreward.Unknown = itemRewardData.IsUnknownReward;
+        copyreward.IsHidden = itemRewardData.IsHiddenReward;
         copyreward.Items.Clear();
         foreach (Item item in items)
         {
@@ -909,6 +875,12 @@ public class QuestUtils
         }
         copyreward.Target = copyreward.Items[0].Id;
         copyreward.Value = (double)itemRewardData.Count;
+        return copyreward;
+    }
+    public static Reward GetCustomizationReward(Reward rewardtarget, List<Reward> target, CustomCustomizationRewardData customizationRewardData, ICloner cloner)
+    {
+        var copyreward = InitCopiedReward(rewardtarget, target, customizationRewardData, cloner);
+        copyreward.Target = (string)customizationRewardData.TargetId;
         return copyreward;
     }
 }
