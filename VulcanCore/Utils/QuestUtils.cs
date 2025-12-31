@@ -624,37 +624,6 @@ public class QuestUtils
             AchievementUtils.GetAchievement(itemRewardData.QuestId, databaseService).Rewards = target;
         }
     }
-    public static void InitItemRewards(CustomItemRewardData itemRewardData, string questid, DatabaseService databaseService, ICloner cloner)
-    {
-        var queststage = EnumUtils.GetQuestStageType(itemRewardData.QuestStage);
-        //var questid = VulcanUtil.ConvertHashID(itemRewardData.QuestId);
-        var rewardtarget = databaseService.GetQuests()
-            .SelectMany(q => q.Value.Rewards[queststage])
-            .FirstOrDefault(r => r.Type == RewardType.Item);
-        var target = GetQuest(questid, databaseService).Rewards;
-        if (target.Count > 0)
-        {
-            if (rewardtarget != null)
-            {
-                var copyreward = cloner.Clone(rewardtarget);
-                var items = ItemUtils.ConvertItemListData(itemRewardData.Items, cloner);
-                copyreward.Id = itemRewardData.Id;
-                copyreward.Index = target.Count;
-                copyreward.FindInRaid = itemRewardData.FindInRaid;
-                copyreward.Unknown = itemRewardData.IsUnknownReward;
-                copyreward.IsHidden = itemRewardData.IsHiddenReward;
-
-                copyreward.Items.Clear();
-                foreach (Item item in items)
-                {
-                    copyreward.Items.Add(item);
-                }
-                copyreward.Target = copyreward.Items[0].Id;
-                copyreward.Value = (double)itemRewardData.Count;
-                target[queststage].Add(copyreward);
-            }
-        }
-    }
     public static void InitRecipeUnlockRewards(CustomRecipeUnlockRewardData recipeUnlockRewardData, DatabaseService databaseService, ICloner cloner)
     {
         //wip
