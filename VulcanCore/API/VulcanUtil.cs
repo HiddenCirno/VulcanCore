@@ -66,6 +66,7 @@ public static class VulcanUtil
         if (string.IsNullOrEmpty(input))
             return string.Empty;
 
+        //return GenerateLocalitySensitiveHash(input);
         using (SHA1 sha1 = SHA1.Create())
         {
             byte[] bytes = Encoding.UTF8.GetBytes(input);
@@ -73,6 +74,46 @@ public static class VulcanUtil
             string hex = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             return hex.Substring(0, 24);
         }
+    }
+    public static string GenerateLocalitySensitiveHash(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return string.Empty;
+
+        // 第一部分：基于字符串前缀的相似性保留哈希
+        long prefixHash = 0;
+        int prefixLength = Math.Min(6, input.Length);
+
+        for (int i = 0; i < prefixLength; i++)
+        {
+            prefixHash = (prefixHash << 8) | (input[i] & 0xFF);
+        }
+
+        // 第二部分：滚动哈希捕捉整体相似性
+        long rollingHash = 0;
+        const long MOD = 1000000007;
+        const long BASE = 31;
+
+        foreach (char c in input)
+        {
+            rollingHash = (rollingHash * BASE + c) % MOD;
+        }
+
+        // 组合两个哈希
+        ulong combined = ((ulong)prefixHash << 32) | (ulong)(rollingHash & 0xFFFFFFFF);
+
+        // 转换为24位十六进制
+        byte[] combinedBytes = BitConverter.GetBytes(combined);
+        Array.Resize(ref combinedBytes, 12); // 扩展到12字节
+
+        // 添加一些额外的熵但保持相似性
+        for (int i = 0; i < 8 && i < input.Length; i++)
+        {
+            combinedBytes[i % 12] ^= (byte)input[i];
+        }
+
+        string hex = BitConverter.ToString(combinedBytes).Replace("-", "").ToLowerInvariant();
+        return hex.Length >= 24 ? hex.Substring(0, 24) : hex.PadRight(24, '0');
     }
     public static T ConvertItemData<T>(string pathToFile, string fileName, JsonUtil jsonutil)
     {
@@ -274,6 +315,14 @@ public static class VulcanUtil
 
         // 添加百分号返回
         return percent + "%";
+    }
+    public static string GetValidFolderName(string folderName)
+    {
+        // 定义非法字符的正则表达式
+        string invalidCharsPattern = @"[<>:""/\\|?*]";
+
+        // 用空字符替换掉所有非法字符
+        return Regex.Replace(folderName, invalidCharsPattern, "_");
     }
 }
 

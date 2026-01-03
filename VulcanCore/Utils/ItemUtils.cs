@@ -1393,5 +1393,15 @@ public class ItemUtils
             pmcconfig.DogtagSettings[sidestring]["unheard_edition"].Add(itemid, 1);
         }
     }
+    public static List<string> GetItemListByRagfairTag(MongoId ragfairTag, DatabaseService databaseService)
+    {
+        var result = new List<string>();
+        var handbooks = databaseService.GetHandbook().Items;
+        handbooks
+        .Where(x => x.ParentId == ragfairTag)
+        .ToList()?
+        .ForEach(x => result.Add(x.Id));
+        return result;
+    }
 }
 

@@ -849,8 +849,15 @@ public class QuestUtils
         var copyreward = cloner.Clone(reward);
         copyreward.Id = rewardData.Id;
         copyreward.Index = target.Count;
-        copyreward.AvailableInGameEditions?.Clear();
-        if (rewardData.AvailableGameEdition != null && copyreward.AvailableInGameEditions != null)
+        if (copyreward.AvailableInGameEditions != null)
+        {
+            copyreward.AvailableInGameEditions?.Clear();
+        }
+        else
+        {
+            copyreward.AvailableInGameEditions = new HashSet<string>();
+        }
+        if (rewardData.AvailableGameEdition != null)
         {
             var gameversion = BitMapUtils.GetGameVersionCode((int)rewardData.AvailableGameEdition);
             foreach (var v in gameversion)

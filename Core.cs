@@ -19,6 +19,7 @@ using SPTarkov.Server.Core.Utils;
 using SPTarkov.Server.Core.Utils.Cloners;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 namespace VulcanCore;
 public record ModMetadata : AbstractModMetadata
@@ -285,6 +286,22 @@ public class VulcanCore(
                         _cloner,
                         _vulcanCore
                     )
+            ),
+            new RouteAction(
+                "/VulcanCoreClient/CallBackup",
+                async (url, info, sessionId, output) =>
+                    await HandleBackupCall(
+                        url,
+                        sessionId,
+                        _jsonUtil,
+                        _databaseService,
+                        _ragfairController,
+                        _ragfairOfferService,
+                        _itemHelper,
+                        _logger,
+                        _cloner,
+                        _vulcanCore
+                    )
             )
         };
         }
@@ -336,6 +353,41 @@ public class VulcanCore(
             //绕过SPT提供的方法直接传递原始数据
             return new ValueTask<string>("Response successful.");
         }
+        private static ValueTask<string> HandleBackupCall(
+            string url,
+            MongoId sessionId,
+            JsonUtil jsonUtil,
+            DatabaseService databaseService,
+            RagfairController ragfairController,
+            RagfairOfferService ragfairOfferService,
+            ItemHelper itemHelper,
+            ISptLogger<VulcanCore> logger,
+            ICloner cloner,
+            VulcanCore vulcanCore
+            )
+        {
+            var localeService = ServiceLocator.ServiceProvider.GetService<LocaleService>();
+            var profileHelper = ServiceLocator.ServiceProvider.GetService<ProfileHelper>();
+            var backupPath = System.IO.Path.Combine(vulcanCore.modPath, "Backup");
+            var currectProfile = profileHelper.GetFullProfile(sessionId);
+            var profileToSave = jsonUtil.Serialize(currectProfile, true);
+            var pmcName = currectProfile.CharacterData.PmcData.Info.Nickname;
+            var currectPmcName = VulcanUtil.GetValidFolderName(pmcName);
+            var timePath = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss");
+            var time = DateTime.Now.ToString("yyyy年MM月dd日HH时mm分ss秒");
+            var currcetBackupPath = System.IO.Path.Combine(backupPath, timePath, currectPmcName);
+            Directory.CreateDirectory(currcetBackupPath);
+            var filePath = System.IO.Path.Combine(currcetBackupPath, $"{sessionId}.json");
+            File.WriteAllText(filePath, profileToSave);
+            var backupLog = $"当前存档已成功备份! 玩家名: {pmcName} 备份时间: {time} 保存路径: {filePath}";
+            var backupMessage = $"{pmcName}的存档已成功备份到{filePath}";
+            VulcanLog.Access(backupLog, logger);
+            // 使用 HttpResponseUtil 返回标准格式 JSON
+            //string jsonResponse = _httpResponseUtil.GetBody(priceMap);
+            //绕过SPT提供的方法直接传递原始数据
+            return new ValueTask<string>(backupMessage);
+        }
+
     }
 }
 
