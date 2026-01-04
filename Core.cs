@@ -210,6 +210,7 @@ public class VulcanCore(
             new ReplaceFleaBasePricesPatch().Enable();
         }
         new OpenRandomLootContainerPatch().Enable();
+        //new RemoveExpiredItemsFromMessagePatch().Enable();
         new RagfairLoadPatch().Enable();
         ItemUtils.InitItem(System.IO.Path.Combine(modPath, "items/"), "<color=#8FFF00>火神之心-物品加载器</color>", "<color=#FFFF80>火神之心</color>", logger, databaseService, jsonutil, cloner, configServer);
         return Task.CompletedTask;
