@@ -49,7 +49,7 @@ public class CustomizationUtils
             Type = customCustomizationItem.Type,
             Prototype = customCustomizationItem.Proto
         });
-        if (customCustomizationItem.Properties.Prefab != null)
+        if (customCustomizationItem.Properties.Prefab != null && customCustomizationItem.Properties.IsVoice==true)
         {
             var storage = databaseService.GetTables().Templates.CustomisationStorage;
             storage.Add(new CustomisationStorage

@@ -50,6 +50,8 @@ public class CustomCustomizationProperties : CustomizationProperties
     public override MongoId? UsecTemplateId { get; set; }
     [JsonPropertyName("HideGarbage")]
     public override bool? HideGarbage { get; set; }
+    [JsonPropertyName("IsVoice")]
+    public bool IsVoice { get; set; }
 }
 public class CustomHideoutCustomization
 {
