@@ -14,6 +14,7 @@ namespace VulcanCore;
 
 public static class VulcanUtil
 {
+    public static Dictionary<string, MongoId> HashIdList = new Dictionary<string, MongoId>();
     public static T DeepCopyJson<T>(this T obj)
     {
         if (obj == null) return default;
@@ -72,7 +73,12 @@ public static class VulcanUtil
             byte[] bytes = Encoding.UTF8.GetBytes(input);
             byte[] hash = sha1.ComputeHash(bytes);
             string hex = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-            return hex.Substring(0, 24);
+            var result = hex.Substring(0, 24);
+            if (!HashIdList.ContainsKey(input))
+            {
+                HashIdList.TryAdd(input, result);
+            }
+            return result;
         }
     }
     public static string GenerateLocalitySensitiveHash(string input)
