@@ -73,6 +73,10 @@ public class RecipeUtils
             ProductionLimitCount = 0,
             IsEncoded = false
         };
+        if (recipeData.IsEncoded == true)
+        {
+            recipe.IsEncoded = true;
+        }
         foreach (var item in recipeData.Require.ToolsRequire)
         {
             recipe.Requirements.Add(new Requirement

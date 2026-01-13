@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\utils\\recipeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\recipeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\classes\\recipeclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\classes\\recipeclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\utils\\itemutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\itemutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\classes\\itemclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\classes\\itemclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,8 +38,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RecipeClasses.cs",
+              "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\RecipeClasses.cs",
+              "RelativeDocumentMoniker": "VulcanCore\\Classes\\RecipeClasses.cs",
+              "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\RecipeClasses.cs",
+              "RelativeToolTip": "VulcanCore\\Classes\\RecipeClasses.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB8AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T15:24:43.241Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -39,6 +64,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "RecipeUtils.cs",
+              "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\RecipeUtils.cs",
+              "RelativeDocumentMoniker": "VulcanCore\\Utils\\RecipeUtils.cs",
+              "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\RecipeUtils.cs",
+              "RelativeToolTip": "VulcanCore\\Utils\\RecipeUtils.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAAwE0AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T15:24:34.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ItemUtils.cs",
+              "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\ItemUtils.cs",
+              "RelativeDocumentMoniker": "VulcanCore\\Utils\\ItemUtils.cs",
+              "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\ItemUtils.cs",
+              "RelativeToolTip": "VulcanCore\\Utils\\ItemUtils.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANkBAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T14:46:11.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ItemClasses.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\ItemClasses.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Classes\\ItemClasses.cs",
@@ -46,12 +97,11 @@
               "RelativeToolTip": "VulcanCore\\Classes\\ItemClasses.cs",
               "ViewState": "AgIAAIkAAAAAAAAAAADwv5QAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:37:45.389Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T08:37:45.389Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "LootUtils.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\LootUtils.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Utils\\LootUtils.cs",
@@ -59,12 +109,11 @@
               "RelativeToolTip": "VulcanCore\\Utils\\LootUtils.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:37:32.781Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T08:37:32.781Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Core.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\Core.cs",
               "RelativeDocumentMoniker": "Core.cs",
@@ -76,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "RemoveExpiredItemsFromMessagePatch.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Patch\\RemoveExpiredItemsFromMessagePatch.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Patch\\RemoveExpiredItemsFromMessagePatch.cs",

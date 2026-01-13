@@ -28,6 +28,8 @@ public class CustomRecipeData
     [JsonPropertyName("Output")]
     [JsonConverter(typeof(MongoIdConverter))]
     public MongoId Output { get; set; }
+    [JsonPropertyName("IsEncoded")]
+    public bool? IsEncoded { get; set; }
     [JsonPropertyName("OutputCount")]
     public int OutputCount { get; set; }
     [JsonPropertyName("Time")]
