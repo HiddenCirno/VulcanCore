@@ -132,14 +132,14 @@ public class CustomFixedItemProps : CustomProps
 public class WeaponItemProps : CustomFixedItemProps
 {
     [JsonPropertyName("FixMastering")]
-    public bool FixMastering { get; set; }
+    public bool? FixMastering { get; set; }
     [JsonPropertyName("AddMastering")]
-    public bool AddMastering { get; set; }
+    public bool? AddMastering { get; set; }
     [JsonPropertyName("Mastering")]
-    public Mastering Mastering { get; set; }
+    public Mastering? Mastering { get; set; }
 
     [JsonPropertyName("CustomMasteringTarget")]
-    public string CustomMasteringTarget { get; set; }
+    public string? CustomMasteringTarget { get; set; }
 
 }
 public class LootableItemProps : CustomFixedItemProps
