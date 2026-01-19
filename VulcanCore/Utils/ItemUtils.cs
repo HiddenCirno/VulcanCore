@@ -1279,7 +1279,7 @@ public class ItemUtils
                 result = GetGiftItemByType(VulcanUtil.DrawFromList<GiftData>(srpool.Normal), VulcanUtil.ConvertHashID($"{DateTime.Now.ToString()}_{srdata.Count}"), databaseService, logger, cloner);
                 var tpl = result.First().Template;
                 cachererord.ItemId = tpl;
-                cachererord.ItemName = LocaleUtils.GetItemName(tpl, localeService);
+                cachererord.ItemName = itemHelper.GetItemName(tpl);
                 srdata.Record.Add(cachererord);
 
             }

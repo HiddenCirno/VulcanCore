@@ -79,7 +79,7 @@ namespace VulcanCore
             var isstaticbox = ItemUtils.StaticBoxData.ContainsKey(itemid);
             var isspecialbox = ItemUtils.SpecialBoxData.ContainsKey(itemid);//false; //placeholder
             // Temp fix for unlocked weapon crate hideout craft
-            VulcanLog.Log($"{itemHelper.GetItemName(VulcanUtil.ConvertHashID("基建材料抽奖箱"))}", logger);
+            //VulcanLog.Log($"{itemHelper.GetItemName(VulcanUtil.ConvertHashID("基建材料抽奖箱"))}", logger);
             if (isadvbox)
             {
                 //可算到这了
