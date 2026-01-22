@@ -53,13 +53,13 @@ public class LocaleUtils
                     var locale = questEntry.Value;                 // CustomQuestLocaleData 对象
 
                     // 写入任务主要字段
-                    localeData[$"{questId} name"] = locale.QuestName;
-                    localeData[$"{questId} description"] = $"{locale.QuestDescription}{modstring}";
-                    localeData[$"{questId} note"] = locale.QuestNote ?? "";
-                    localeData[$"{questId} failMessageText"] = locale.QuestFailMessage ?? "";
-                    localeData[$"{questId} startedMessageText"] = locale.QuestStartMessaage ?? "";
-                    localeData[$"{questId} successMessageText"] = locale.QuestSuccessMessage ?? "";
-                    localeData[$"{questId} location"] = locale.QuestLocation ?? "";
+                    localeData.TryAdd($"{questId} name", locale.QuestName);
+                    localeData.TryAdd($"{questId} description", $"{locale.QuestDescription}{modstring}");
+                    localeData.TryAdd($"{questId} note", locale.QuestNote ?? "");
+                    localeData.TryAdd($"{questId} failMessageText", locale.QuestFailMessage ?? "");
+                    localeData.TryAdd($"{questId} startedMessageText", locale.QuestStartMessaage ?? "");
+                    localeData.TryAdd($"{questId} successMessageText", locale.QuestSuccessMessage ?? "");
+                    localeData.TryAdd($"{questId} location", locale.QuestLocation ?? "");
 
                     // 写入每个条件文本（如 Hand/Find 条件）
                     if (locale.QuestConditions != null)
@@ -68,7 +68,8 @@ public class LocaleUtils
                         {
                             // cond.Key = "PersicariaTask1Find1"
                             // cond.Value = "在战局中找到电线"
-                            localeData[VulcanUtil.ConvertHashID(cond.Key)] = cond.Value;
+                            localeData.TryAdd(VulcanUtil.ConvertHashID(cond.Key), cond.Value);
+                            //localeData[VulcanUtil.ConvertHashID(cond.Key)] = cond.Value;
                         }
                     }
                 }
@@ -92,9 +93,9 @@ public class LocaleUtils
             {
                 value.AddTransformer(delegate (Dictionary<string, string>? localeData)
                 {
-                    localeData.Add(newItemId2 + " Name", newLocaleDetails.Name);
-                    localeData.Add(newItemId2 + " ShortName", newLocaleDetails.ShortName);
-                    localeData.Add(newItemId2 + " Description", newLocaleDetails.Description.Replace("#ItemId", newItemId2));
+                    localeData.TryAdd(newItemId2 + " Name", newLocaleDetails.Name);
+                    localeData.TryAdd(newItemId2 + " ShortName", newLocaleDetails.ShortName);
+                    localeData.TryAdd(newItemId2 + " Description", newLocaleDetails.Description.Replace("#ItemId", newItemId2));
                     return localeData;
                 });
             }
@@ -347,7 +348,7 @@ public class LocaleUtils
             {
                 foreach (var kvp in lang)
                 {
-                    if (kvp.Value.Contains("<color=#FFFFFF><b>\n由") && itemlist.Contains(kvp.Key))
+                    if (kvp.Value!=null && kvp.Value.Contains("<color=#FFFFFF><b>\n由") && itemlist.Contains(kvp.Key))
                     {
                         //lang[kvp.Key] = $"{lang[kvp.Key]}\n{result}";
                         lang[kvp.Key] = kvp.Value.Replace("<color=#FFFFFF><b>\n由", $"{result}\n<color=#FFFFFF><b>\n由");

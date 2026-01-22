@@ -1,14 +1,15 @@
-using System.Text.Json;
+using SPTarkov.Server.Core.Models.Common;
+using SPTarkov.Server.Core.Models.Utils;
+using SPTarkov.Server.Core.Utils;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Text.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using SPTarkov.Server.Core.Utils;
-using SPTarkov.Server.Core.Models.Utils;
-using SPTarkov.Server.Core.Models.Common;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using static VulcanCore.ConfigManager;
 
 namespace VulcanCore;
 
@@ -330,7 +331,95 @@ public static class VulcanUtil
         // 用空字符替换掉所有非法字符
         return Regex.Replace(folderName, invalidCharsPattern, "_");
     }
+    public static string RemoveJsonComments(string jsoncContent)
+    {
+        var builder = new StringBuilder();
+        bool inString = false;
+        bool escapeNext = false;
+        bool inLineComment = false;
+        bool inBlockComment = false;
+
+        for (int i = 0; i < jsoncContent.Length; i++)
+        {
+            char current = jsoncContent[i];
+
+            if (inLineComment)
+            {
+                if (current == '\n' || current == '\r')
+                {
+                    inLineComment = false;
+                    // 保留换行符
+                    builder.Append(current);
+                }
+                continue;
+            }
+
+            if (inBlockComment)
+            {
+                if (current == '*' && i + 1 < jsoncContent.Length && jsoncContent[i + 1] == '/')
+                {
+                    inBlockComment = false;
+                    i++; // 跳过下一个字符 '/'
+                }
+                continue;
+            }
+
+            if (escapeNext)
+            {
+                builder.Append(current);
+                escapeNext = false;
+                continue;
+            }
+
+            if (current == '\\')
+            {
+                escapeNext = true;
+                builder.Append(current);
+                continue;
+            }
+
+            if (current == '"')
+            {
+                inString = !inString;
+                builder.Append(current);
+                continue;
+            }
+
+            if (!inString)
+            {
+                // 检查是否开始单行注释
+                if (current == '/' && i + 1 < jsoncContent.Length && jsoncContent[i + 1] == '/')
+                {
+                    inLineComment = true;
+                    i++; // 跳过下一个字符 '/'
+                    continue;
+                }
+
+                // 检查是否开始多行注释
+                if (current == '/' && i + 1 < jsoncContent.Length && jsoncContent[i + 1] == '*')
+                {
+                    inBlockComment = true;
+                    i++; // 跳过下一个字符 '*'
+                    continue;
+                }
+            }
+
+            builder.Append(current);
+        }
+
+        return builder.ToString();
+    }
+    public static T LoadJsonC<T>(string filepath)
+    {
+        var configJsoncContent = File.ReadAllText(filepath);
+        return JsonSerializer.Deserialize<T>(configJsoncContent, new JsonSerializerOptions
+        {
+            ReadCommentHandling = JsonCommentHandling.Skip // 启用注释解析
+        })
+        ;
+    }
 }
+
 
 
 

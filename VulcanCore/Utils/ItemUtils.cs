@@ -122,7 +122,8 @@ public class ItemUtils
             foreach (var file in files)
             {
                 string fileContent = File.ReadAllText(file);
-                var item = VulcanUtil.ConvertItemData<CustomItemTemplate>(fileContent, jsonUtil);
+                string processedJson = VulcanUtil.RemoveJsonComments(fileContent);
+                var item = VulcanUtil.ConvertItemData<CustomItemTemplate>(processedJson, jsonUtil);
                 ItemUtils.CreateAndAddItem(item, item.TargetId, creator, modname, logger, databaseService, cloner, configServer);
             }
         }
