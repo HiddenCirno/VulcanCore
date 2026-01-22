@@ -85,15 +85,15 @@ public class TraderUtils
         LocaleUtils.AddTraderToLocales(traderBase, databaseService, creator, modname);
         if (insuranceChance > 0)
         {
-            insuranceConfig.ReturnChancePercent.TryAdd(traderId, (double)insuranceChance);
+            insuranceConfig.ReturnChancePercent.TryAdd(traderId, (double)(traderBase.InsuranceChance ?? insuranceChance));
         }
         traderConfig.UpdateTime.Add(new UpdateTime
         {
             Name = traderBase.Name,
             TraderId = traderId,
-            Seconds = new MinMax<int> { Min = reflashMinTime, Max = reflashMaxtime }
+            Seconds = new MinMax<int> { Min = traderBase.ReflashMinTime ?? reflashMinTime, Max = traderBase.ReflashMaxTime ?? reflashMaxtime }
         });
-        if (addToRagfair)
+        if (traderBase.ShowInRagfair ?? addToRagfair)
         {
             ragfairConfig.Traders.TryAdd(traderId, true);
         }

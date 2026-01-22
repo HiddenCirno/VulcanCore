@@ -25,5 +25,13 @@ public record TraderBaseWithDesc : TraderBase
     public string Description { get; set; }
     [JsonPropertyName("insurance_locale")]
     public Dictionary<string, List<string>?>? Dialogue { get; init; }
+    [JsonPropertyName("insuranceChance")]
+    public int? InsuranceChance { get; set; }
+    [JsonPropertyName("minReflashTime")]
+    public int? ReflashMinTime {  get; set; }
+    [JsonPropertyName("maxReflashTime")]
+    public int? ReflashMaxTime { get; set; }
+    [JsonPropertyName("showInRagfair")]
+    public bool? ShowInRagfair { get; set; }
 }
 
