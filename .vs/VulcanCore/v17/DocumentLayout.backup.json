@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\utils\\itemutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\itemutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\utils\\recipeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\recipeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\classes\\itemclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\classes\\itemclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\core.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:core.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
@@ -15,24 +31,8 @@
       "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\localeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\utils\\recipeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\recipeutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\utils\\itemutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\utils\\itemutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\api\\vulcanutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\api\\vulcanutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\core.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:core.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\classes\\itemclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|solutionrelative:vulcancore\\classes\\itemclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98E9F0F4-09F1-4B1F-B830-4A6671AB7497}|\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj|d:\\tkfsingleplayer\\gitrepo\\400test\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\vulcancore\\patch\\ragfairloadpatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -58,21 +58,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 9,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F",
-              "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
-              "RelativeDocumentMoniker": "\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
-              "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
-              "RelativeToolTip": "\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-01-22T08:49:28.369Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -83,7 +70,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
+              "Title": "\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
+              "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
+              "RelativeDocumentMoniker": "\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
+              "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
+              "RelativeToolTip": "\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-01-22T08:49:28.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "VulcanUtil.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\API\\VulcanUtil.cs",
               "RelativeDocumentMoniker": "VulcanCore\\API\\VulcanUtil.cs",
@@ -104,7 +104,8 @@
               "RelativeToolTip": "VulcanCore\\Patch\\RagfairLoadPatch.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAAACoAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T08:41:44.699Z"
+              "WhenOpened": "2026-01-19T08:41:44.699Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -116,11 +117,12 @@
               "RelativeToolTip": "VulcanCore\\Patch\\OpenRandomLootContainerPatch.cs",
               "ViewState": "AgIAAEgAAAAAAAAAAAAIwGAAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T05:29:17.921Z"
+              "WhenOpened": "2026-01-19T05:29:17.921Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "LocaleUtils.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\LocaleUtils.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Utils\\LocaleUtils.cs",
@@ -141,11 +143,12 @@
               "RelativeToolTip": "VulcanCore\\Classes\\RecipeClasses.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAAB8AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-13T15:24:43.241Z"
+              "WhenOpened": "2026-01-13T15:24:43.241Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "RecipeUtils.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\RecipeUtils.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Utils\\RecipeUtils.cs",
@@ -158,28 +161,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "ItemUtils.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\ItemUtils.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Utils\\ItemUtils.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\ItemUtils.cs",
               "RelativeToolTip": "VulcanCore\\Utils\\ItemUtils.cs",
-              "ViewState": "AgIAAH0AAAAAAAAAAAAAAHwAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAIEEAAAAAAAAAADwv44EAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-12T14:46:11.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "ItemClasses.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\ItemClasses.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Classes\\ItemClasses.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\ItemClasses.cs",
               "RelativeToolTip": "VulcanCore\\Classes\\ItemClasses.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAAwIUAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAANAAAAAAAAAAAAAzwN8AAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:37:45.389Z"
+              "WhenOpened": "2026-01-05T08:37:45.389Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -191,24 +195,25 @@
               "RelativeToolTip": "VulcanCore\\Utils\\LootUtils.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:37:32.781Z"
+              "WhenOpened": "2026-01-05T08:37:32.781Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "Core.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\Core.cs",
               "RelativeDocumentMoniker": "Core.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\Core.cs",
               "RelativeToolTip": "Core.cs",
-              "ViewState": "AgIAAMcAAAAAAAAAAAAAwNYAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAAwNkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-04T09:50:09.961Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "RemoveExpiredItemsFromMessagePatch.cs",
               "DocumentMoniker": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Patch\\RemoveExpiredItemsFromMessagePatch.cs",
               "RelativeDocumentMoniker": "VulcanCore\\Patch\\RemoveExpiredItemsFromMessagePatch.cs",

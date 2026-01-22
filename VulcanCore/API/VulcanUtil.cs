@@ -409,14 +409,17 @@ public static class VulcanUtil
 
         return builder.ToString();
     }
-    public static T LoadJsonC<T>(string filepath)
+    public static T LoadJsonCFromPath<T>(string filepath)
     {
         var configJsoncContent = File.ReadAllText(filepath);
         return JsonSerializer.Deserialize<T>(configJsoncContent, new JsonSerializerOptions
         {
             ReadCommentHandling = JsonCommentHandling.Skip // ∆Ù”√◊¢ ÕΩ‚Œˆ
-        })
-        ;
+        });
+    }
+    public static T LoadJsonC<T>(string content)
+    {
+        return JsonSerializer.Deserialize<T>(content);
     }
 }
 

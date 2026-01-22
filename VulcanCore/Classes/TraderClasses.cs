@@ -24,6 +24,6 @@ public record TraderBaseWithDesc : TraderBase
     [JsonPropertyName("description")]
     public string Description { get; set; }
     [JsonPropertyName("insurance_locale")]
-    public Dictionary<string, List<string>?> Dialogue { get; init; }
+    public Dictionary<string, List<string>?>? Dialogue { get; init; }
 }
 

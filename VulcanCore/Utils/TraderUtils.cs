@@ -67,12 +67,15 @@ public class TraderUtils
         traderPattern.QuestAssort["success"].Clear();
         traderPattern.QuestAssort["fail"].Clear();
         traderPattern.Dialogue.Clear();
-        traderPattern.Dialogue["insuranceStart"] = traderBase.Dialogue["insuranceStart"];
-        traderPattern.Dialogue["insuranceFound"] = traderBase.Dialogue["insuranceFound"];
-        traderPattern.Dialogue["insuranceFailedLabs"] = traderBase.Dialogue["insuranceFailedLabs"];
-        traderPattern.Dialogue["insuranceExpired"] = traderBase.Dialogue["insuranceExpired"];
-        traderPattern.Dialogue["insuranceComplete"] = traderBase.Dialogue["insuranceComplete"];
-        traderPattern.Dialogue["insuranceFailed"] = traderBase.Dialogue["insuranceFailed"];
+        if (traderBase.Dialogue != null)
+        {
+            traderPattern.Dialogue["insuranceStart"] = traderBase.Dialogue["insuranceStart"];
+            traderPattern.Dialogue["insuranceFound"] = traderBase.Dialogue["insuranceFound"];
+            traderPattern.Dialogue["insuranceFailedLabs"] = traderBase.Dialogue["insuranceFailedLabs"];
+            traderPattern.Dialogue["insuranceExpired"] = traderBase.Dialogue["insuranceExpired"];
+            traderPattern.Dialogue["insuranceComplete"] = traderBase.Dialogue["insuranceComplete"];
+            traderPattern.Dialogue["insuranceFailed"] = traderBase.Dialogue["insuranceFailed"];
+        }
         if(traderBase.CustomizationSeller == true)
         {
             traderPattern.Suits = new List<Suit>();

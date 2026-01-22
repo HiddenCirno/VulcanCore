@@ -1,4 +1,5 @@
 using HarmonyLib.Tools;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Logging;
@@ -1173,7 +1174,21 @@ public class ItemUtils
     {
         foreach (var pool in drawPool)
         {
-            DrawPoolData.TryAdd(pool.Key, pool.Value);
+            DrawPoolData.TryAdd(pool.Value.Name, pool.Value);
+        }
+    }
+    public static void InitDrawPool(string folderPath)
+    {
+        List<string> files = Directory.GetFiles(folderPath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileContent = File.ReadAllText(file);
+                string processedJson = VulcanUtil.RemoveJsonComments(fileContent);
+                var pool = VulcanUtil.LoadJsonC<DrawPoolClass>(processedJson);
+                DrawPoolData.TryAdd(pool.Name, pool);
+            }
         }
     }
     public static List<Item> GetAdvancedBoxData(MongoId sessionId, string drawpoolname, DrawPoolClass drawpool, JsonUtil jsonUtil, ItemHelper itemHelper, DatabaseService databaseService, ModHelper modHelper, ISptLogger<VulcanCore> logger, ICloner cloner)
