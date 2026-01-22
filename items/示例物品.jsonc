@@ -19,6 +19,7 @@
             "effects_damage": {}
         },
         "_customprops": {
+            //Test
             "$type": "buff",
             "Name": "Vulcan-范例针剂",
             "ShortName": "Example",

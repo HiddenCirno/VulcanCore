@@ -27,7 +27,6 @@ D:\TKFSinglePlayer\GitRepo\400TEST\VulcanCore_Test\bin\火神之心-重生\火�
 D:\TKFSinglePlayer\GitRepo\400TEST\VulcanCore_Test\bin\火神之心-重生\火神之心-重生.dll
 D:\TKFSinglePlayer\GitRepo\400TEST\VulcanCore_Test\bin\火神之心-重生\火神之心-重生.pdb
 I:\TKF\SPT\user\mods\火神之心-重生\drawrecord.json
-I:\TKF\SPT\user\mods\火神之心-重生\items\示例物品.json
 I:\TKF\SPT\user\mods\火神之心-重生\config.jsonc
 I:\TKF\SPT\user\mods\火神之心-重生\火神之心-重生.staticwebassets.endpoints.json
 I:\TKF\SPT\user\mods\火神之心-重生\火神之心-重生.deps.json
@@ -55,3 +54,4 @@ D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\refint\火神�
 D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\火神之心-重生.xml
 D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\火神之心-重生.pdb
 D:\TKFSinglePlayer\GitRepo\400TEST\火神之心-重生\obj\Debug\ref\火神之心-重生.dll
+I:\TKF\SPT\user\mods\火神之心-重生\items\示例物品.jsonc
