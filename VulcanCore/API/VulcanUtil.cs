@@ -419,7 +419,10 @@ public static class VulcanUtil
     }
     public static T LoadJsonC<T>(string content)
     {
-        return JsonSerializer.Deserialize<T>(content);
+        return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions
+        {
+            ReadCommentHandling = JsonCommentHandling.Skip // ÆôÓÃ×¢ÊÍ½âÎö
+        });
     }
 }
 

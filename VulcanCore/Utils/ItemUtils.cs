@@ -1177,16 +1177,20 @@ public class ItemUtils
             DrawPoolData.TryAdd(pool.Value.Name, pool.Value);
         }
     }
-    public static void InitDrawPool(string folderPath)
+    public static void InitDrawPool(string folderpath)
     {
-        List<string> files = Directory.GetFiles(folderPath).ToList();
+        var modHelper = ServiceLocator.ServiceProvider.GetService<ModHelper>();
+        List<string> files = Directory.GetFiles(folderpath).ToList();
         if (files.Count > 0)
         {
             foreach (var file in files)
             {
-                string fileContent = File.ReadAllText(file);
-                string processedJson = VulcanUtil.RemoveJsonComments(fileContent);
-                var pool = VulcanUtil.LoadJsonC<DrawPoolClass>(processedJson);
+                //需要修改为原生支持
+                //Item就没有办法了
+                //Item根本没通过Json走, 只能走自定义处理了
+                //明天继续, 今天摸了
+                string fileName = System.IO.Path.GetFileName(file);
+                var pool = modHelper.GetJsonDataFromFile<DrawPoolClass>(folderpath, fileName);
                 DrawPoolData.TryAdd(pool.Name, pool);
             }
         }
