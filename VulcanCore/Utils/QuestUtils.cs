@@ -310,7 +310,7 @@ public class QuestUtils
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
                 .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "Location"); // 获取 Counter 的 Conditions
-                
+
             var equiptargets = databaseService.GetQuests()
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
@@ -319,7 +319,7 @@ public class QuestUtils
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
                 .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "InZone"); // 获取 Counter 的 Conditions
-                
+
             //需要新增装备需求
             //这玩意定义好弱智
             //草了, 还需要weaponmod解析
@@ -364,7 +364,7 @@ public class QuestUtils
                 {
                     copytargets.WeaponModsInclusive = new List<List<string>>();
                     var count = killTargetData.ModList.Count;
-                    for(var i = 0; i < count; i++)
+                    for (var i = 0; i < count; i++)
                     {
                         var list = killTargetData.ModList[i];
                         copytargets.WeaponModsInclusive.AddItem(list);
@@ -634,6 +634,19 @@ public class QuestUtils
             conditions.Add(copycondition);
         }
     }
+    public static void InitQuestRewards(string folderpath, DatabaseService databaseService, ModHelper modHelper, ICloner cloner, ISptLogger<VulcanCore> logger)
+    {
+        List<string> files = Directory.GetFiles(folderpath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                var rewards = modHelper.GetJsonDataFromFile<List<CustomQuestRewardData>>(folderpath, fileName);
+                InitQuestRewards(rewards, databaseService, cloner, logger);
+            }
+        }
+    }
     public static void InitQuestRewards(List<CustomQuestRewardData> rewards, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
     {
         foreach (CustomQuestRewardData reward in rewards)
@@ -890,7 +903,7 @@ public class QuestUtils
             if (rewardtarget != null)
             {
                 var copyreward = InitCopiedReward(rewardtarget, target[queststage], traderUnlockRewardData, cloner);
-                copyreward.TraderId = (string)traderUnlockRewardData.TraderId;
+                copyreward.Target = (string)traderUnlockRewardData.TraderId;
                 target[queststage].Add(copyreward);
             }
         }
