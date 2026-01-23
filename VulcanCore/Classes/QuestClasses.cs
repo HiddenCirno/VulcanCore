@@ -143,7 +143,7 @@ public class KillTargetData : CustomQuestData
     [JsonPropertyName("weapon")]
     public List<string> WeaponList { get; set; }
     [JsonPropertyName("mod")]
-    public List<string> ModList { get; set; }
+    public List<List<string>> ModList { get; set; }
     [JsonPropertyName("location")]
     public int Location { get; set; }
     [JsonPropertyName("zone")]

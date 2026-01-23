@@ -1,32 +1,34 @@
+using HarmonyLib;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Logging;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
-using SPTarkov.Server.Core.Models.Logging;
-using SPTarkov.Server.Core.Models.Spt.Mod;
-using SPTarkov.Server.Core.Models.Utils;
-using SPTarkov.Server.Core.Services;
-using SPTarkov.Server.Core.Models.Eft.Common.Tables;
-using System.Text.Json;
 using SPTarkov.Server.Core.Helpers;
 using SPTarkov.Server.Core.Models.Common;
-using SPTarkov.Server.Core.Services.Mod;
-using System.Reflection;
 using SPTarkov.Server.Core.Models.Eft.Common;
-using SPTarkov.Server.Core.Utils.Cloners;
-using SPTarkov.Server.Core.Utils.Logger;
+using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Eft.Inventory;
-using SPTarkov.Server.Core.Utils.Json;
-using Microsoft.Extensions.Logging;
-using SPTarkov.Server.Core.Servers;
-using SPTarkov.Server.Core.Models.Spt.Config;
-using SPTarkov.Server.Core.Utils;
-using Path = System.IO.Path;
 using SPTarkov.Server.Core.Models.Enums;
-using SPTarkov.Server.Core.Routers;
-using System.IO;
-using SPTarkov.Server.Core.Models.Spt.Templates;
+using SPTarkov.Server.Core.Models.Logging;
+using SPTarkov.Server.Core.Models.Spt.Config;
+using SPTarkov.Server.Core.Models.Spt.Mod;
 using SPTarkov.Server.Core.Models.Spt.Server;
-using System.Linq;
+using SPTarkov.Server.Core.Models.Spt.Templates;
+using SPTarkov.Server.Core.Models.Utils;
+using SPTarkov.Server.Core.Routers;
+using SPTarkov.Server.Core.Servers;
+using SPTarkov.Server.Core.Services;
+using SPTarkov.Server.Core.Services.Mod;
+using SPTarkov.Server.Core.Utils;
+using SPTarkov.Server.Core.Utils.Cloners;
+using SPTarkov.Server.Core.Utils.Json;
+using SPTarkov.Server.Core.Utils.Logger;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.Json;
+using Path = System.IO.Path;
 
 namespace VulcanCore;
 
@@ -42,6 +44,19 @@ public class QuestUtils
         foreach (var customquest in questData)
         {
             InitQuest(customquest.Value, databaseService, cloner, logger);
+        }
+    }
+    public static void InitQuestData(string folderpath, DatabaseService databaseService, ModHelper modHelper, ICloner cloner, ISptLogger<VulcanCore> logger)
+    {
+        List<string> files = Directory.GetFiles(folderpath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                var customquest = modHelper.GetJsonDataFromFile<CustomQuest>(folderpath, fileName);
+                InitQuest(customquest, databaseService, cloner, logger);
+            }
         }
     }
     public static void InitQuest(CustomQuest customQuest, DatabaseService databaseService, ICloner cloner, ISptLogger<VulcanCore> logger)
@@ -289,6 +304,17 @@ public class QuestUtils
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
                 .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "Location"); // 获取 Counter 的 Conditions
+            var equiptargets = databaseService.GetQuests()
+                .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
+                .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
+                .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "Equipment"); // 获取 Counter 的 Conditions
+            var zonetargets = databaseService.GetQuests()
+                .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
+                .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
+                .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "InZone"); // 获取 Counter 的 Conditions
+            //需要新增装备需求
+            //这玩意定义好弱智
+            //草了, 还需要weaponmod解析
             if (killtargets != null)
             {
                 var copytargets = cloner.Clone(killtargets);
@@ -318,15 +344,25 @@ public class QuestUtils
                         copytargets.EnemyEquipmentInclusive = list;
                     }
                 }
+                copytargets?.Weapon?.Clear();
                 if (killTargetData.WeaponList.Count > 0)
                 {
-                    copytargets.Weapon.Clear();
                     foreach (var weapon in killTargetData.WeaponList)
                     {
                         copytargets.Weapon.Add(VulcanUtil.ConvertHashID(weapon));
                     }
                 }
-                copytargets.SavageRole = killTargetData.BotRole;
+                if (killTargetData.ModList.Count > 0)
+                {
+                    copytargets.WeaponModsInclusive = new List<List<string>>();
+                    var count = killTargetData.ModList.Count;
+                    for(var i = 0; i < count; i++)
+                    {
+                        var list = killTargetData.ModList[i];
+                        copytargets.EquipmentInclusive.AddItem(list);
+                    }
+                }
+                    copytargets.SavageRole = killTargetData.BotRole;
                 copytargets.Target = new ListOrT<string>(null, killTargetData.BotType);
                 copycondition.Counter.Conditions.Add(copytargets);
             }
@@ -342,7 +378,28 @@ public class QuestUtils
                 }
                 copycondition.Counter.Conditions.Add(copytargets);
             }
-            conditions.Add(copycondition);
+            //完事
+            if (equiptargets != null && killTargetData.EquipmentList.Count > 0)
+            {
+                var count = killTargetData.EquipmentList.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    var copytargets = cloner.Clone(equiptargets);
+                    copytargets.Id = VulcanUtil.ConvertHashID($"{killTargetData.Id}_EquipmentCounter_{count}");
+                    copytargets.EquipmentExclusive.Clear();
+                    copytargets.EquipmentInclusive = new List<List<string>>();
+                    var list = killTargetData.EquipmentList[i];
+                    foreach(var item in list)
+                    {
+                        copytargets.EquipmentInclusive.AddItem(new List<string>
+                        {
+                            item
+                        });
+                    }
+                    copycondition.Counter.Conditions.Add(copytargets);
+                    conditions.Add(copycondition);
+                }
+            }
         }
     }
     public static void InitReachLevelDataConditions(List<QuestCondition> conditions, ReachLevelData reachLevelData, DatabaseService databaseService, ICloner cloner)
