@@ -310,6 +310,7 @@ public class QuestUtils
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
                 .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "Location"); // 获取 Counter 的 Conditions
+                
             var equiptargets = databaseService.GetQuests()
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
@@ -318,6 +319,7 @@ public class QuestUtils
                 .SelectMany(q => q.Value.Conditions.AvailableForFinish)   // 所有 AvailableForFinish 条件
                 .Where(c => c.ConditionType == "CounterCreator")         // 过滤 CounterCreator
                 .SelectMany(c => c.Counter?.Conditions).FirstOrDefault(c => c.ConditionType == "InZone"); // 获取 Counter 的 Conditions
+                
             //需要新增装备需求
             //这玩意定义好弱智
             //草了, 还需要weaponmod解析
@@ -350,11 +352,11 @@ public class QuestUtils
                         copytargets.EnemyEquipmentInclusive = list;
                     }
                 }
-                copytargets?.Weapon?.Clear();
                 if (killTargetData.WeaponList.Count > 0)
                 {
                     foreach (var weapon in killTargetData.WeaponList)
                     {
+                        copytargets.Weapon.Clear();
                         copytargets.Weapon.Add(VulcanUtil.ConvertHashID(weapon));
                     }
                 }
@@ -365,10 +367,10 @@ public class QuestUtils
                     for(var i = 0; i < count; i++)
                     {
                         var list = killTargetData.ModList[i];
-                        copytargets.EquipmentInclusive.AddItem(list);
+                        copytargets.WeaponModsInclusive.AddItem(list);
                     }
                 }
-                    copytargets.SavageRole = killTargetData.BotRole;
+                copytargets.SavageRole = killTargetData.BotRole;
                 copytargets.Target = new ListOrT<string>(null, killTargetData.BotType);
                 copycondition.Counter.Conditions.Add(copytargets);
             }
@@ -395,7 +397,7 @@ public class QuestUtils
                     copytargets.EquipmentExclusive.Clear();
                     copytargets.EquipmentInclusive = new List<List<string>>();
                     var list = killTargetData.EquipmentList[i];
-                    foreach(var item in list)
+                    foreach (var item in list)
                     {
                         copytargets.EquipmentInclusive.AddItem(new List<string>
                         {
@@ -403,21 +405,21 @@ public class QuestUtils
                         });
                     }
                     copycondition.Counter.Conditions.Add(copytargets);
-                    conditions.Add(copycondition);
                 }
             }
             //区域击杀
-            if(zonetargets!=null && killTargetData.ZoneList.Count > 0)
+            if (zonetargets != null && killTargetData.ZoneList.Count > 0)
             {
                 var copytargets = cloner.Clone(zonetargets);
                 copytargets.Id = VulcanUtil.ConvertHashID($"{killTargetData.Id}_ZoneCounter");
                 copytargets.Zones.Clear();
-                foreach(var zone in killTargetData.ZoneList)
+                foreach (var zone in killTargetData.ZoneList)
                 {
                     copytargets.Zones.Add(zone);
                 }
                 copycondition.Counter.Conditions.Add(copytargets);
             }
+            conditions.Add(copycondition);
         }
     }
     public static void InitReachLevelDataConditions(List<QuestCondition> conditions, ReachLevelData reachLevelData, DatabaseService databaseService, ICloner cloner)
@@ -673,6 +675,11 @@ public class QuestUtils
                         InitAchievementRewards(achievementreward, databaseService, cloner);
                     }
                     break;
+                case CustomTraderUnlockRewardData traderunlockreward:
+                    {
+                        InitTraderUnlockRewards(traderunlockreward, databaseService, cloner);
+                    }
+                    break;
                 case CustomPocketRewardData pocketreward:
                     {
                         InitPocketRewards(pocketreward, databaseService, cloner);
@@ -862,6 +869,23 @@ public class QuestUtils
             {
                 var copyreward = InitCopiedReward(rewardtarget, target[queststage], achievementRewardData, cloner);
                 copyreward.Target = (string)achievementRewardData.TargetId;
+                target[queststage].Add(copyreward);
+            }
+        }
+    }
+    public static void InitTraderUnlockRewards(CustomTraderUnlockRewardData traderUnlockRewardData, DatabaseService databaseService, ICloner cloner)
+    {
+        var queststage = EnumUtils.GetQuestStageType(traderUnlockRewardData.QuestStage);
+        var rewardtarget = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Rewards[queststage])
+            .FirstOrDefault(r => r.Type == RewardType.TraderUnlock);
+        var target = GetQuest(traderUnlockRewardData.QuestId, databaseService).Rewards;
+        if (target.Count > 0)
+        {
+            if (rewardtarget != null)
+            {
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], traderUnlockRewardData, cloner);
+                copyreward.TraderId = (string)traderUnlockRewardData.TraderId;
                 target[queststage].Add(copyreward);
             }
         }
