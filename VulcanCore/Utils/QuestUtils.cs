@@ -908,7 +908,7 @@ public class QuestUtils
             {
                 var copyreward = InitCopiedReward(rewardtarget, target[queststage], skillExperienceRewardData, cloner);
                 copyreward.Target = (string)skillExperienceRewardData.SkillType;
-                copyreward.Value = (double)skillExperienceRewardData.Count;
+                copyreward.Value = (double)(skillExperienceRewardData.Count * 100);
                 target[queststage].Add(copyreward);
             }
         }
