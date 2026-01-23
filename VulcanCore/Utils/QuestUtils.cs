@@ -28,6 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using Path = System.IO.Path;
 
 namespace VulcanCore;
@@ -865,6 +866,19 @@ public class QuestUtils
         foreach (var data in questLogicTree)
         {
             InitQuestLogicTree(data.Value, databaseService, cloner);
+        }
+    }
+    public static void InitQuestLogicTreeData(string folderpath, DatabaseService databaseService, ModHelper modHelper, ICloner cloner)
+    {
+        List<string> files = Directory.GetFiles(folderpath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                var logictree = modHelper.GetJsonDataFromFile<QuestLogicTree>(folderpath, fileName);
+                InitQuestLogicTree(logictree, databaseService, cloner);
+            }
         }
     }
     public static void InitQuestLogicTree(QuestLogicTree questLogicTree, DatabaseService databaseService, ICloner cloner)
