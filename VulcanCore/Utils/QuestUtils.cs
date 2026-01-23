@@ -160,6 +160,11 @@ public class QuestUtils
                         InitReachTraderTrustLevelDataConditions(conditions, reachtradertrustleveldata, databaseService, cloner);
                     }
                     break;
+                case ReachSkillLevelData reachskillleveldata:
+                    {
+                        InitReachSkillLevelDataConditions(conditions, reachskillleveldata, databaseService, cloner);
+                    }
+                    break;
                 case CompleteQuestData completequestdata:
                     {
                         InitCompleteQuestDataConditions(conditions, completequestdata, databaseService, cloner);
@@ -575,6 +580,23 @@ public class QuestUtils
             copycondition.CompareMethod = ">=";
             copycondition.Target = new ListOrT<string>(null, reachTraderTrustLevelData.TraderId);
             copycondition.Value = (double)reachTraderTrustLevelData.TrustLevel;
+            conditions.Add(copycondition);
+        }
+    }
+    public static void InitReachSkillLevelDataConditions(List<QuestCondition> conditions, ReachSkillLevelData reachTraderTrustLevelData, DatabaseService databaseService, ICloner cloner)
+    {
+        var condition = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Conditions.AvailableForFinish)
+            .FirstOrDefault(c => c.ConditionType == "Skill");
+        if (condition != null)
+        {
+            var copycondition = cloner.Clone(condition);
+            copycondition.Id = reachTraderTrustLevelData.Id;
+            copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
+            copycondition.CompareMethod = ">=";
+            copycondition.Target = new ListOrT<string>(null, reachTraderTrustLevelData.SkillType);
+            copycondition.Value = (double)reachTraderTrustLevelData.Level;
             conditions.Add(copycondition);
         }
     }

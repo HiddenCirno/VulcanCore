@@ -210,7 +210,7 @@ public class ExitLocationData : CustomQuestData
 public class ReachSkillLevelData : CustomQuestData
 {
     [JsonPropertyName("skill")]
-    public int SkillType { get; set; }
+    public string SkillType { get; set; }
     [JsonPropertyName("level")]
     public int Level { get; set; }
 }
