@@ -304,7 +304,7 @@ public class CustomExperienceRewardData : CustomQuestRewardData
 public class CustomSkillExperienceRewardData : CustomQuestRewardData
 {
     [JsonPropertyName("Skill")]
-    public int SkillType { get; set; }
+    public string SkillType { get; set; }
     [JsonPropertyName("Count")]
     public int Count { get; set; }
 }

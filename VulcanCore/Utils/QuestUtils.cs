@@ -680,6 +680,11 @@ public class QuestUtils
                         InitTraderUnlockRewards(traderunlockreward, databaseService, cloner);
                     }
                     break;
+                case CustomSkillExperienceRewardData skillexperiencereward:
+                    {
+                        InitSkillExperienceRewards(skillexperiencereward, databaseService, cloner);
+                    }
+                    break;
                 case CustomPocketRewardData pocketreward:
                     {
                         InitPocketRewards(pocketreward, databaseService, cloner);
@@ -886,6 +891,24 @@ public class QuestUtils
             {
                 var copyreward = InitCopiedReward(rewardtarget, target[queststage], traderUnlockRewardData, cloner);
                 copyreward.TraderId = (string)traderUnlockRewardData.TraderId;
+                target[queststage].Add(copyreward);
+            }
+        }
+    }
+    public static void InitSkillExperienceRewards(CustomSkillExperienceRewardData skillExperienceRewardData, DatabaseService databaseService, ICloner cloner)
+    {
+        var queststage = EnumUtils.GetQuestStageType(skillExperienceRewardData.QuestStage);
+        var rewardtarget = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Rewards[queststage])
+            .FirstOrDefault(r => r.Type == RewardType.Skill);
+        var target = GetQuest(skillExperienceRewardData.QuestId, databaseService).Rewards;
+        if (target.Count > 0)
+        {
+            if (rewardtarget != null)
+            {
+                var copyreward = InitCopiedReward(rewardtarget, target[queststage], skillExperienceRewardData, cloner);
+                copyreward.Target = (string)skillExperienceRewardData.SkillType;
+                copyreward.Value = (double)skillExperienceRewardData.Count;
                 target[queststage].Add(copyreward);
             }
         }
