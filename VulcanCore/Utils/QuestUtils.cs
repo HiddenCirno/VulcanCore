@@ -400,6 +400,18 @@ public class QuestUtils
                     conditions.Add(copycondition);
                 }
             }
+            //ÇøÓò»÷É±
+            if(zonetargets!=null && killTargetData.ZoneList.Count > 0)
+            {
+                var copytargets = cloner.Clone(zonetargets);
+                copytargets.Id = VulcanUtil.ConvertHashID($"{killTargetData.Id}_ZoneCounter");
+                copytargets.Zones.Clear();
+                foreach(var zone in killTargetData.ZoneList)
+                {
+                    copytargets.Zones.Add(zone);
+                }
+                copycondition.Counter.Conditions.Add(copytargets);
+            }
         }
     }
     public static void InitReachLevelDataConditions(List<QuestCondition> conditions, ReachLevelData reachLevelData, DatabaseService databaseService, ICloner cloner)
