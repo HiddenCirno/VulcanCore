@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("火神之心-重生")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+02f5abcafd37d0925f3466f4acd6411f30bdf99f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+95efd1e5da1bd6e712f7773694e53c1f5b89e0cf")]
 [assembly: System.Reflection.AssemblyProductAttribute("火神之心-重生")]
 [assembly: System.Reflection.AssemblyTitleAttribute("火神之心-重生")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.1.0")]
