@@ -110,7 +110,7 @@
               "RelativeDocumentMoniker": "VulcanCore\\Utils\\RecipeUtils.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\RecipeUtils.cs",
               "RelativeToolTip": "VulcanCore\\Utils\\RecipeUtils.cs",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAAAJMAAABHAAAAAAAAAA==",
+              "ViewState": "AgIAAIMAAAAAAAAAAAA3wJQAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-13T15:24:34.862Z",
               "EditorCaption": ""
@@ -125,7 +125,8 @@
               "RelativeToolTip": "VulcanCore\\Utils\\ItemUtils.cs",
               "ViewState": "AgIAAJMEAAAAAAAAAAAqwKQEAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-12T14:46:11.567Z"
+              "WhenOpened": "2026-01-12T14:46:11.567Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -135,9 +136,10 @@
               "RelativeDocumentMoniker": "VulcanCore\\Classes\\TraderClasses.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\TraderClasses.cs",
               "RelativeToolTip": "VulcanCore\\Classes\\TraderClasses.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAABIAAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAABIwBIAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T14:47:37.629Z"
+              "WhenOpened": "2026-01-22T14:47:37.629Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -149,7 +151,8 @@
               "RelativeToolTip": "VulcanCore\\API\\VulcanUtil.cs",
               "ViewState": "AgIAAEQBAAAAAAAAAADwv5wBAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T04:58:32.479Z"
+              "WhenOpened": "2026-01-22T04:58:32.479Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -159,9 +162,10 @@
               "RelativeDocumentMoniker": "VulcanCore\\Patch\\RagfairLoadPatch.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Patch\\RagfairLoadPatch.cs",
               "RelativeToolTip": "VulcanCore\\Patch\\RagfairLoadPatch.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAACoAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAABIwCoAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T08:41:44.699Z"
+              "WhenOpened": "2026-01-19T08:41:44.699Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -173,7 +177,8 @@
               "RelativeToolTip": "VulcanCore\\Patch\\OpenRandomLootContainerPatch.cs",
               "ViewState": "AgIAAEgAAAAAAAAAAAAIwGAAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-19T05:29:17.921Z"
+              "WhenOpened": "2026-01-19T05:29:17.921Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -183,9 +188,10 @@
               "RelativeDocumentMoniker": "VulcanCore\\Utils\\LocaleUtils.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Utils\\LocaleUtils.cs",
               "RelativeToolTip": "VulcanCore\\Utils\\LocaleUtils.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAA9wNUAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAqwNUAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-15T18:57:04.678Z"
+              "WhenOpened": "2026-01-15T18:57:04.678Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -208,9 +214,10 @@
               "RelativeDocumentMoniker": "VulcanCore\\Classes\\ItemClasses.cs",
               "ToolTip": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\\u706B\u795E\u4E4B\u5FC3-\u91CD\u751F\\VulcanCore\\Classes\\ItemClasses.cs",
               "RelativeToolTip": "VulcanCore\\Classes\\ItemClasses.cs",
-              "ViewState": "AgIAANAAAAAAAAAAAAAzwN8AAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAANEAAAAAAAAAAAAIwN8AAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:37:45.389Z"
+              "WhenOpened": "2026-01-05T08:37:45.389Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -222,7 +229,8 @@
               "RelativeToolTip": "VulcanCore\\Utils\\LootUtils.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T08:37:32.781Z"
+              "WhenOpened": "2026-01-05T08:37:32.781Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -234,7 +242,8 @@
               "RelativeToolTip": "Core.cs",
               "ViewState": "AgIAAMcAAAAAAAAAAAAAwNkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T09:50:09.961Z"
+              "WhenOpened": "2026-01-04T09:50:09.961Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -246,7 +255,8 @@
               "RelativeToolTip": "VulcanCore\\Patch\\RemoveExpiredItemsFromMessagePatch.cs",
               "ViewState": "AgIAADYAAAAAAAAAAAAIwEoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-04T08:49:37.079Z"
+              "WhenOpened": "2026-01-04T08:49:37.079Z",
+              "EditorCaption": ""
             }
           ]
         }
