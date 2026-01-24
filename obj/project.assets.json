@@ -196,7 +196,7 @@
           "lib/netstandard2.0/SemanticVersioning.dll": {}
         }
       },
-      "SPTarkov.Common/4.0.6": {
+      "SPTarkov.Common/4.0.11": {
         "type": "package",
         "dependencies": {
           "SemanticVersioning": "3.0.0"
@@ -215,7 +215,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "SPTarkov.DI/4.0.6": {
+      "SPTarkov.DI/4.0.11": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "2025.2.2",
@@ -232,12 +232,12 @@
           }
         }
       },
-      "SPTarkov.Reflection/4.0.6": {
+      "SPTarkov.Reflection/4.0.11": {
         "type": "package",
         "dependencies": {
           "HarmonyX": "2.15.0",
           "JetBrains.Annotations": "2025.2.2",
-          "SPTarkov.DI": "4.0.6"
+          "SPTarkov.DI": "4.0.11"
         },
         "compile": {
           "lib/net9.0/SPTarkov.Reflection.dll": {
@@ -250,12 +250,12 @@
           }
         }
       },
-      "SPTarkov.Server.Core/4.0.6": {
+      "SPTarkov.Server.Core/4.0.11": {
         "type": "package",
         "dependencies": {
           "FastCloner": "3.3.16",
-          "SPTarkov.Common": "4.0.6",
-          "SPTarkov.DI": "4.0.6",
+          "SPTarkov.Common": "4.0.11",
+          "SPTarkov.DI": "4.0.11",
           "System.IO.Hashing": "9.0.9"
         },
         "compile": {
@@ -664,59 +664,59 @@
         "semanticversioning.nuspec"
       ]
     },
-    "SPTarkov.Common/4.0.6": {
-      "sha512": "sNaCA/dbzd0ADVzxMgISb25P+zF5AZ3v8KQqvELr0B7u8xDTZj82d0TQOhyf2uxqgjqdd69JMsmGQOWZPdcNeQ==",
+    "SPTarkov.Common/4.0.11": {
+      "sha512": "4albVOmH7lqt399gAUT7kGK/ZSX36/LIbY8ZTAMK5/a+nUXSEGWSFhA4zuTp7qySH/pl9nrnZaGmqHhA4rGVEA==",
       "type": "package",
-      "path": "sptarkov.common/4.0.6",
+      "path": "sptarkov.common/4.0.11",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "lib/net9.0/SPTarkov.Common.dll",
         "lib/net9.0/SPTarkov.Common.xml",
-        "sptarkov.common.4.0.6.nupkg.sha512",
+        "sptarkov.common.4.0.11.nupkg.sha512",
         "sptarkov.common.nuspec"
       ]
     },
-    "SPTarkov.DI/4.0.6": {
-      "sha512": "Cccgz/n9EBqPx3NIU0BZN92Ss0QW3iSA13L9M8fP4jWqh1UIuW1M7sMRGcJuPWfahJnHsaRSDLMBeJuKzW207Q==",
+    "SPTarkov.DI/4.0.11": {
+      "sha512": "96g0GYlVqscFOJ2RVPpN2eJSQBCUOEvOsycZqO0h58v1ja4slgCbeB7ESIy/kLaI4MQzUGKNFOIR2A1zFc8Sqg==",
       "type": "package",
-      "path": "sptarkov.di/4.0.6",
+      "path": "sptarkov.di/4.0.11",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "lib/net9.0/SPTarkov.DI.dll",
         "lib/net9.0/SPTarkov.DI.xml",
-        "sptarkov.di.4.0.6.nupkg.sha512",
+        "sptarkov.di.4.0.11.nupkg.sha512",
         "sptarkov.di.nuspec"
       ]
     },
-    "SPTarkov.Reflection/4.0.6": {
-      "sha512": "Q8tzsRHhRR+zcReEomVUAH41DkZ3DFPM54cMK3duvE4+yYuE/aYig4rt2GmAvwtbvuOJsge19fnr69jg46frxw==",
+    "SPTarkov.Reflection/4.0.11": {
+      "sha512": "d9FRnnMd4Kv2q+7R5keNgTsQnUdX55IuwY+UKAYUMyR9ODnecClAHv/loxj+3Ng10eLVGVyY20VdiUCKcV+Apg==",
       "type": "package",
-      "path": "sptarkov.reflection/4.0.6",
+      "path": "sptarkov.reflection/4.0.11",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "lib/net9.0/SPTarkov.Reflection.dll",
         "lib/net9.0/SPTarkov.Reflection.xml",
-        "sptarkov.reflection.4.0.6.nupkg.sha512",
+        "sptarkov.reflection.4.0.11.nupkg.sha512",
         "sptarkov.reflection.nuspec"
       ]
     },
-    "SPTarkov.Server.Core/4.0.6": {
-      "sha512": "ipPBXCkz51xfxfGVUeiT9Zsiguv/Wp4/leieMpJM420bU/VEyqjRbiWZTvwkOOffe6E0/Xg7GS/0+cVURTrieA==",
+    "SPTarkov.Server.Core/4.0.11": {
+      "sha512": "1HoBhOkzrwPORYuPXBY0sgTMF+XC4hp7iJjLSMJyEH7KqxEGAgdM13cmkDMC+yD5Y+8vyBJQaWJwdJNz0gpK3Q==",
       "type": "package",
-      "path": "sptarkov.server.core/4.0.6",
+      "path": "sptarkov.server.core/4.0.11",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "lib/net9.0/SPTarkov.Server.Core.dll",
         "lib/net9.0/SPTarkov.Server.Core.xml",
-        "sptarkov.server.core.4.0.6.nupkg.sha512",
+        "sptarkov.server.core.4.0.11.nupkg.sha512",
         "sptarkov.server.core.nuspec"
       ]
     },
@@ -827,10 +827,10 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "SPTarkov.Common >= 4.0.6",
-      "SPTarkov.DI >= 4.0.6",
-      "SPTarkov.Reflection >= 4.0.6",
-      "SPTarkov.Server.Core >= 4.0.6"
+      "SPTarkov.Common >= 4.0.11",
+      "SPTarkov.DI >= 4.0.11",
+      "SPTarkov.Reflection >= 4.0.11",
+      "SPTarkov.Server.Core >= 4.0.11"
     ]
   },
   "packageFolders": {
@@ -887,19 +887,19 @@
         "dependencies": {
           "SPTarkov.Common": {
             "target": "Package",
-            "version": "[4.0.6, )"
+            "version": "[4.0.11, )"
           },
           "SPTarkov.DI": {
             "target": "Package",
-            "version": "[4.0.6, )"
+            "version": "[4.0.11, )"
           },
           "SPTarkov.Reflection": {
             "target": "Package",
-            "version": "[4.0.6, )"
+            "version": "[4.0.11, )"
           },
           "SPTarkov.Server.Core": {
             "target": "Package",
-            "version": "[4.0.6, )"
+            "version": "[4.0.11, )"
           }
         },
         "imports": [

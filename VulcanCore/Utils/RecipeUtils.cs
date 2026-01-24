@@ -136,6 +136,19 @@ public class RecipeUtils
             InitScavCaseRecipe(customScavCaseRecipeData, databaseService, cloner);
         }
     }
+    public static void InitScavCaseRecipeData(string folderpath, DatabaseService databaseService, ModHelper modHelper, ICloner cloner)
+    {
+        List<string> files = Directory.GetFiles(folderpath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                var scavcase = modHelper.GetJsonDataFromFile<CustomScavCaseRecipeData>(folderpath, fileName);
+                InitScavCaseRecipe(scavcase, databaseService, cloner);
+            }
+        }
+    }
     public static void InitScavCaseRecipe(CustomScavCaseRecipeData recipeData, DatabaseService databaseService, ICloner cloner)
     {
         var recipes = databaseService.GetHideout().Production.ScavRecipes;

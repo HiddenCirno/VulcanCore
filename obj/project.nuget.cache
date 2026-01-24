@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sEtl5lj0gw4=",
+  "dgSpecHash": "etGmynkJzco=",
   "success": true,
   "projectFilePath": "D:\\TKFSinglePlayer\\GitRepo\\400TEST\\火神之心-重生\\火神之心-重生.csproj",
   "expectedPackageFiles": [
@@ -15,10 +15,10 @@
     "C:\\Users\\HiddenSummer\\.nuget\\packages\\monomod.runtimedetour\\25.3.0\\monomod.runtimedetour.25.3.0.nupkg.sha512",
     "C:\\Users\\HiddenSummer\\.nuget\\packages\\monomod.utils\\25.0.8\\monomod.utils.25.0.8.nupkg.sha512",
     "C:\\Users\\HiddenSummer\\.nuget\\packages\\semanticversioning\\3.0.0\\semanticversioning.3.0.0.nupkg.sha512",
-    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.common\\4.0.6\\sptarkov.common.4.0.6.nupkg.sha512",
-    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.di\\4.0.6\\sptarkov.di.4.0.6.nupkg.sha512",
-    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.reflection\\4.0.6\\sptarkov.reflection.4.0.6.nupkg.sha512",
-    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.server.core\\4.0.6\\sptarkov.server.core.4.0.6.nupkg.sha512",
+    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.common\\4.0.11\\sptarkov.common.4.0.11.nupkg.sha512",
+    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.di\\4.0.11\\sptarkov.di.4.0.11.nupkg.sha512",
+    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.reflection\\4.0.11\\sptarkov.reflection.4.0.11.nupkg.sha512",
+    "C:\\Users\\HiddenSummer\\.nuget\\packages\\sptarkov.server.core\\4.0.11\\sptarkov.server.core.4.0.11.nupkg.sha512",
     "C:\\Users\\HiddenSummer\\.nuget\\packages\\system.io.hashing\\9.0.9\\system.io.hashing.9.0.9.nupkg.sha512",
     "C:\\Users\\HiddenSummer\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
     "C:\\Users\\HiddenSummer\\.nuget\\packages\\system.text.json\\5.0.2\\system.text.json.5.0.2.nupkg.sha512"

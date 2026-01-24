@@ -53,19 +53,19 @@
           "dependencies": {
             "SPTarkov.Common": {
               "target": "Package",
-              "version": "[4.0.6, )"
+              "version": "[4.0.11, )"
             },
             "SPTarkov.DI": {
               "target": "Package",
-              "version": "[4.0.6, )"
+              "version": "[4.0.11, )"
             },
             "SPTarkov.Reflection": {
               "target": "Package",
-              "version": "[4.0.6, )"
+              "version": "[4.0.11, )"
             },
             "SPTarkov.Server.Core": {
               "target": "Package",
-              "version": "[4.0.6, )"
+              "version": "[4.0.11, )"
             }
           },
           "imports": [
