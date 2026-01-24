@@ -63,6 +63,7 @@ public class CustomQuestConditionsData
 [JsonDerivedType(typeof(ReachTraderStandingData), "standing")]
 [JsonDerivedType(typeof(CompleteQuestData), "quest")]
 [JsonDerivedType(typeof(CustomizationBlockData), "block")]
+[JsonDerivedType(typeof(ReachPrestigeLevelData), "prestige")]
 
 public class CustomQuestData
 {
@@ -158,6 +159,13 @@ public class ReachLevelData : CustomQuestData
 {
     [JsonPropertyName("count")]
     public int Count { get; set; }
+}
+public class ReachPrestigeLevelData : CustomQuestData
+{
+    [JsonPropertyName("type")]
+    public int CompareType { get; set; }
+    [JsonPropertyName("level")]
+    public int Level { get; set; }
 }
 
 public class VisitPlaceData : CustomQuestData

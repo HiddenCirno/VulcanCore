@@ -135,6 +135,11 @@ public class QuestUtils
                         InitReachLevelDataConditions(conditions, reachleveldata, databaseService, cloner);
                     }
                     break;
+                case ReachPrestigeLevelData reachprestigeleveldata:
+                    {
+                        InitReachPrestigeLevelDataConditions(conditions, reachprestigeleveldata, databaseService, cloner);
+                    }
+                    break;
                 case VisitPlaceData visitplacedata:
                     {
                         InitVisitPlaceDataConditions(conditions, visitplacedata, databaseService, cloner);
@@ -435,6 +440,23 @@ public class QuestUtils
             copycondition.VisibilityConditions.Clear();
             copycondition.CompareMethod = ">=";
             copycondition.Value = (double)reachLevelData.Count;
+            conditions.Add(copycondition);
+        }
+    }
+    public static void InitReachPrestigeLevelDataConditions(List<QuestCondition> conditions, ReachPrestigeLevelData reachPrestigeLevelData, DatabaseService databaseService, ICloner cloner)
+    {
+        var condition = databaseService.GetQuests()
+            .SelectMany(q => q.Value.Conditions.AvailableForStart)
+            .FirstOrDefault(c => c.ConditionType == "Level");
+        if (condition != null)
+        {
+            var copycondition = cloner.Clone(condition);
+            copycondition.Id = reachPrestigeLevelData.Id;
+            copycondition.ConditionType = "PrestigeLevel";
+            copycondition.Index = conditions.Count;
+            copycondition.VisibilityConditions.Clear();
+            copycondition.CompareMethod = EnumUtils.GetCompareType(reachPrestigeLevelData.CompareType);
+            copycondition.Value = (double)reachPrestigeLevelData.Level;
             conditions.Add(copycondition);
         }
     }
