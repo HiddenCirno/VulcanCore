@@ -362,4 +362,8 @@ public class QuestLogicTree
     public Dictionary<string, int> PreTraderTrustLevelData { get; set; }
     [JsonPropertyName("prelevel")]
     public int PrePlayerLevel { get; set; }
+    [JsonPropertyName("prestigelevel")]
+    public int? PrePlayerPrestigeLevel { get; set; }
+    [JsonPropertyName("prestigetype")]
+    public int? PrestigeCompareType { get; set; }
 }

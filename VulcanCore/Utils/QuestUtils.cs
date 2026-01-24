@@ -1030,6 +1030,16 @@ public class QuestUtils
             },
             databaseService, cloner);
         }
+        if (questLogicTree?.PrePlayerPrestigeLevel > 0)
+        {
+            InitReachPrestigeLevelDataConditions(questTarget.Conditions.AvailableForStart, new ReachPrestigeLevelData
+            {
+                Id = VulcanUtil.ConvertHashID($"{questLogicTree.Id}_PrePlayerPrestigeLevel"),
+                CompareType = questLogicTree.PrestigeCompareType ?? 3,
+                Level = (int)questLogicTree.PrePlayerPrestigeLevel
+            },
+            databaseService, cloner);
+        }
     }
     public static Reward InitCopiedReward(Reward reward, List<Reward> target, CustomQuestRewardData rewardData, ICloner cloner)
     {
