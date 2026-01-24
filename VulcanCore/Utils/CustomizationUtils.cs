@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Logging;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
@@ -35,6 +36,19 @@ public class CustomizationUtils
             InitCustomization(item.Value, databaseService, cloner);
         }
     }
+    public static void InitCustomiaztionData(string folderpath, DatabaseService databaseService, ModHelper modHelper, ICloner cloner)
+    {
+        List<string> files = Directory.GetFiles(folderpath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                var customization = modHelper.GetJsonDataFromFile<Dictionary<string, CustomCustomizationItem>>(folderpath, fileName);
+                InitCustomiaztionData(customization, databaseService, cloner);
+            }
+        }
+    }
     public static void InitCustomization(CustomCustomizationItem customCustomizationItem, DatabaseService databaseService, ICloner cloner)
     {
         var zhCNLang = databaseService.GetLocales().Global["ch"];
@@ -49,7 +63,7 @@ public class CustomizationUtils
             Type = customCustomizationItem.Type,
             Prototype = customCustomizationItem.Proto
         });
-        if (customCustomizationItem.Properties.Prefab != null && customCustomizationItem.Properties.IsVoice==true)
+        if (customCustomizationItem.Properties.Prefab != null && customCustomizationItem.Properties.IsVoice == true)
         {
             var storage = databaseService.GetTables().Templates.CustomisationStorage;
             storage.Add(new CustomisationStorage
