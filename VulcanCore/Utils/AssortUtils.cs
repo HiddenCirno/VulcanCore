@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Logging;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
@@ -52,6 +53,19 @@ public class AssortUtils
                         QuestUtils.InitAssortUnlockRewards(assortUnlockRewardData, databaseService, cloner, logger);
                     }
                     break;
+            }
+        }
+    }
+    public static void InitAssortData(string folderpath, DatabaseService databaseService, ModHelper modHelper, ICloner cloner, ISptLogger<VulcanCore> logger)
+    {
+        List<string> files = Directory.GetFiles(folderpath).ToList();
+        if (files.Count > 0)
+        {
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                var assort = modHelper.GetJsonDataFromFile<List<CustomAssortData>>(folderpath, fileName);
+                InitAssortData(assort, databaseService, cloner, logger);
             }
         }
     }

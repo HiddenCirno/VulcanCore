@@ -38,7 +38,7 @@ public class CustomAssortData
     public int TrustLevel { get; set; }
 
     [JsonPropertyName("isWeapon")]
-    public bool isWeapon { get; set; }
+    public bool? IsWeapon { get; set; }
 
 }
 
@@ -50,7 +50,7 @@ public class CustomNormalAssortData: CustomAssortData
 public class CustomLockedAssortData : CustomAssortData
 {
     [JsonPropertyName("Locked")]
-    public bool Locked { get; set; }
+    public bool? Locked { get; set; }
 
     [JsonPropertyName("Quest")]
     public string QuestId { get; set; }
