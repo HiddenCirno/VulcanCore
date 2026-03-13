@@ -25,6 +25,7 @@ using SPTarkov.Server.Core.Services.Mod;
 using SPTarkov.Server.Core.Utils;
 using SPTarkov.Server.Core.Utils.Cloners;
 using System;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Reflection;
 using System.Reflection;
@@ -49,7 +50,7 @@ namespace VulcanCore
             // 获取构造函数参数中的 logger
             //var logger = GetLogger(__instance);
             var bundlesField = AccessTools.Field(typeof(BundleLoader), "_bundles");
-            var bundles = (Dictionary<string, BundleInfo>)bundlesField.GetValue(__instance);
+            var bundles = (ConcurrentDictionary<string, BundleInfo>)bundlesField.GetValue(__instance);
 
             var success = bundles.TryAdd(key, bundle);
             if (!success)
