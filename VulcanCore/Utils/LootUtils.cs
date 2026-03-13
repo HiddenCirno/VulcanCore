@@ -43,7 +43,8 @@ public class LootUtils
                 getedlocations.Lighthouse,
                 getedlocations.TarkovStreets,
                 getedlocations.Sandbox,
-                getedlocations.SandboxHigh
+                getedlocations.SandboxHigh,
+                getedlocations.Labyrinth
             };
             MongoId targetid = lootableItemProps.UseCustomData == true && lootableItemProps.StaticLoot == true ? lootableItemProps.CustomStaticLootTarget : template.TargetId;
             MongoId addedid = VulcanUtil.ConvertHashID(template.Id);
@@ -99,7 +100,8 @@ public class LootUtils
                 getedlocations.Lighthouse,
                 getedlocations.TarkovStreets,
                 getedlocations.Sandbox,
-                getedlocations.SandboxHigh
+                getedlocations.SandboxHigh,
+                getedlocations.Labyrinth
             };
             MongoId targetid = lootableItemProps.UseCustomData == true && lootableItemProps.MapLoot == true ? lootableItemProps.CustomMapLootTarget : template.TargetId;
             MongoId addedid = VulcanUtil.ConvertHashID(template.Id);
