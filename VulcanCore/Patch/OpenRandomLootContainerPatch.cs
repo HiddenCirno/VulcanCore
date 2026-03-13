@@ -147,7 +147,7 @@ namespace VulcanCore
                                             }
                                         }
                                     });
-                                    profileHelper.AddSkillPointsToPlayer(pmcData, skillData.Skill, (double)skillData.Count);
+                                    profileHelper.AddSkillPointsToPlayer(pmcData, skillData.Skill, (double)skillData.Count, false);
                                 }
                                 break;
                             case GiftDataExperienceData experienceData:
